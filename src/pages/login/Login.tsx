@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { useHistory } from "react-router-dom";
 import { RiAdminFill } from "react-icons/ri";
 import { LoginFormButton, LoginFormInput } from "components";
 
@@ -14,11 +14,11 @@ import {
 } from "./Login.styles";
 
 const LoginPage: React.FC = () => {
+  const history = useHistory();
   const [formState, setFormState] = useState<loginStateProps>({
     username: "",
     password: "",
   });
-
   const [error, setError] = useState<loginStateProps>({
     username: "",
     password: "",
@@ -31,11 +31,16 @@ const LoginPage: React.FC = () => {
   const handleClick = () => {
     if (formState.username === "") {
       setError((prev) => ({ ...prev, username: "Username is required." }));
+    } else {
+      setError((prev) => ({ ...prev, username: "" }));
     }
     if (formState.password === "") {
       setError((prev) => ({ ...prev, password: "Password is required." }));
+    } else {
+      setError((prev) => ({ ...prev, password: "" }));
     }
     if (formState.username !== "" && formState.password !== "") {
+      history.push("/home");
     }
   };
 
