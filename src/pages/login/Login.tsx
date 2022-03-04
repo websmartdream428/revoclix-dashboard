@@ -20,7 +20,6 @@ const LoginPage: React.FC = () => {
   });
 
   const handleInputChange = (e: any) => {
-    console.log(e.target.name);
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 

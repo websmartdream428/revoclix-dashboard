@@ -12,8 +12,8 @@ export const LoginPageWrapper = styled.div`
 export const LoginForm = styled.div`
   position: relative;
   max-width: 500px;
-  width: 100%;
-  padding: 50px 40px;
+  width: 87%;
+  padding: 50px 5%;
   background-color: #1a2226;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   text-align: center;
