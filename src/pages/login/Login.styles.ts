@@ -45,7 +45,7 @@ export const LoginText = styled.h1`
 `;
 
 export const FormWrapper = styled.div`
-  & > *:not(:first-child) {
-    margin-top: 30px;
+  & > *:not(:last-child) {
+    margin-bottom: 30px;
   }
 `;

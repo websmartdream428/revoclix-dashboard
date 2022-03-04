@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { RiAdminFill } from "react-icons/ri";
-import { LoginFormInput } from "components";
+import { LoginFormButton, LoginFormInput } from "components";
 
 import { loginStateProps } from "types/loginStateProps";
 
@@ -23,6 +23,8 @@ const LoginPage: React.FC = () => {
     console.log(e.target.name);
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
+
+  const handleClick = () => {};
 
   return (
     <LoginPageWrapper>
@@ -46,6 +48,7 @@ const LoginPage: React.FC = () => {
             onChange={handleInputChange}
             name="password"
           />
+          <LoginFormButton onClick={handleClick} />
         </FormWrapper>
       </LoginForm>
     </LoginPageWrapper>
