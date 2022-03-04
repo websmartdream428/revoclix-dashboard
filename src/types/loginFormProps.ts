@@ -1,7 +1,8 @@
 export interface LoginFormProps {
-  type: string;
-  label: string;
-  name: string;
-  value: string;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  type?: string | undefined;
+  label?: string | undefined;
+  name?: string | undefined;
+  value?: string | undefined;
+  error?: string | undefined;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }

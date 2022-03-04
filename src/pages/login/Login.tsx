@@ -19,11 +19,25 @@ const LoginPage: React.FC = () => {
     password: "",
   });
 
+  const [error, setError] = useState<loginStateProps>({
+    username: "",
+    password: "",
+  });
+
   const handleInputChange = (e: any) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
-  const handleClick = () => {};
+  const handleClick = () => {
+    if (formState.username === "") {
+      setError((prev) => ({ ...prev, username: "Username is required." }));
+    }
+    if (formState.password === "") {
+      setError((prev) => ({ ...prev, password: "Password is required." }));
+    }
+    if (formState.username !== "" && formState.password !== "") {
+    }
+  };
 
   return (
     <LoginPageWrapper>
@@ -36,6 +50,7 @@ const LoginPage: React.FC = () => {
           <LoginFormInput
             type="text"
             label="Username"
+            error={error.username}
             value={formState.username}
             onChange={handleInputChange}
             name="username"
@@ -43,6 +58,7 @@ const LoginPage: React.FC = () => {
           <LoginFormInput
             type="password"
             label="Password"
+            error={error.password}
             value={formState.password}
             onChange={handleInputChange}
             name="password"

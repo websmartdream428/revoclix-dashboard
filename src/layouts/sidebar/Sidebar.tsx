@@ -1,7 +1,9 @@
 import React from "react";
 
+import { SidebarWrapper } from "./Sidebar.styles";
+
 const Sidebar = () => {
-  return <div>Sidebar</div>;
+  return <SidebarWrapper>Sidebar</SidebarWrapper>;
 };
 
 export default Sidebar;
