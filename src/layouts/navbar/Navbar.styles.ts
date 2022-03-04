@@ -1,0 +1,11 @@
+import styled from "styled-components";
+
+export const NavbarWrapper = styled.div`
+  display: flex;
+  position: fixed;
+  background-color: #1e88e5;
+  height: 70px;
+  width: 100%;
+  z-index: 99999;
+  box-shadow: 5px 0px 10px rgb(0 0 0 / 50%);
+`;
