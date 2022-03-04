@@ -9,3 +9,10 @@ export const NavbarWrapper = styled.div`
   z-index: 99999;
   box-shadow: 5px 0px 10px rgb(0 0 0 / 50%);
 `;
+
+export const NavbarSection = styled.div`
+  padding: 0 10px;
+  display: flex;
+  justify-content: flex-end;
+  width: calc(100vw - 260px);
+`;

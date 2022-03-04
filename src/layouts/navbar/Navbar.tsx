@@ -1,13 +1,16 @@
 import React from "react";
 
-import { AppLogo } from "components";
+import { AppLogo, UserLogo } from "components";
 
-import { NavbarWrapper } from "./Navbar.styles";
+import { NavbarSection, NavbarWrapper } from "./Navbar.styles";
 
 const Navbar = () => {
   return (
     <NavbarWrapper>
       <AppLogo />
+      <NavbarSection>
+        <UserLogo />
+      </NavbarSection>
     </NavbarWrapper>
   );
 };
