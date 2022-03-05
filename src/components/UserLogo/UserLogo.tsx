@@ -3,7 +3,7 @@ import { UserAvatar, UserLogoWrapper, UserName } from "./UserLogo.styles";
 
 import userImg from "assets/image/user.png";
 
-const UserLogo = () => {
+const UserLogo: React.FC = () => {
   return (
     <UserLogoWrapper>
       <UserAvatar src={userImg} alt="userImg" />

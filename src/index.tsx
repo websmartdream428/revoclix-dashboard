@@ -4,7 +4,7 @@ import App from "./pages/App";
 import reportWebVitals from "./reportWebVitals";
 import "assets/css/index.css";
 import "assets/css/App.css";
-import "react-pro-sidebar/dist/css/styles.css";
+import "assets/css/react-pro-sidebar.css";
 
 ReactDOM.render(
   <React.StrictMode>

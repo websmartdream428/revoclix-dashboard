@@ -1,24 +1,4 @@
-.pro-sidebar {
-  width: 100% !important;
-  min-width: 100% !important;
-}
-
-.pro-sidebar-inner {
-  background: transparent !important;
-}
-
-.pro-menu {
-  padding: 15px !important;
-}
-
-.pro-inner-item {
-  border-radius: 4px;
-
-  padding: 8px 35px 8px 15px !important;
-  margin-bottom: 10px;
-}
-
-.pro-menu > ul > .pro-menu-item > .pro-inner-item {
+.pro-menu > ul > .pro-menu-item > .pro-inner-item.active {
   background-color: #26c6da;
   color: white;
   box-shadow: 0 0 10px rgb(0 0 0 / 20%);
