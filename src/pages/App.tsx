@@ -5,6 +5,7 @@ import AppLayout from "layouts/AppLayout";
 
 import { LoginPage } from "./login";
 import { HomePage } from "./home";
+import { CategoriesPage } from "./categories";
 import { NotFoundPage } from "./NotFound";
 
 import SidebarContext from "context/SidebarContext";
@@ -20,6 +21,7 @@ function App() {
           <Switch>
             <Route exact path="/" component={LoginPage} />
             <Route exact path="/home" component={HomePage} />
+            <Route exact path="/categories" component={CategoriesPage} />
             <Route exact path="*" component={NotFoundPage} />
           </Switch>
         </AppLayout>
