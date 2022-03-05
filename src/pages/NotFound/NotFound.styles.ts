@@ -1,7 +1,13 @@
 import styled from "styled-components";
 
 export const NotFoundWrapper = styled.div`
+  z-index: 9999999999;
   background-color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   overflow-y: scroll;
   overflow-y: hidden;
   text-align: center;
@@ -24,6 +30,7 @@ export const NotFoundWrapper = styled.div`
   p {
     color: #455a64a0;
     font-size: 16px;
+    margin-bottom: 40px;
   }
   @media screen and (max-width: 768px) {
     h1 {

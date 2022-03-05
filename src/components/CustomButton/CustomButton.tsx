@@ -10,7 +10,14 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   radius,
 }) => {
   return (
-    <ButtonWrapper bgColor={bgColor}>CustomButton: React.FC</ButtonWrapper>
+    <ButtonWrapper
+      onClick={onClick}
+      bgColor={bgColor}
+      fColor={fColor}
+      radius={radius}
+    >
+      {label}
+    </ButtonWrapper>
   );
 };
 

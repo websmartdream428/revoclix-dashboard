@@ -1,12 +1,16 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import SidebarContext from "context/SidebarContext";
 
+import Container from "components/Container/Container";
 import { BreadcrumbWrapper } from "./AppBreadcrumb.styles";
 
 const AppBreadcrumb: React.FC = () => {
+  const { sidebar } = useContext<any>(SidebarContext);
   return (
     <BreadcrumbWrapper>
-      <Link to="/home">Home</Link> {">"} <span>Dashboard</span>
+      <Container>
+        <span>Home</span> {">"} {sidebar.value}
+      </Container>
     </BreadcrumbWrapper>
   );
 };
