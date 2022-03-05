@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import AppLayout from "layouts/AppLayout";
 
@@ -17,9 +17,11 @@ function App() {
     <SidebarContext.Provider value={sidebarValue}>
       <Router>
         <AppLayout>
-          <Route exact path="/" component={LoginPage} />
-          <Route exact path="/home" component={HomePage} />
-          <Route exact path="*" component={NotFoundPage} />
+          <Switch>
+            <Route exact path="/" component={LoginPage} />
+            <Route exact path="/home" component={HomePage} />
+            <Route exact path="*" component={NotFoundPage} />
+          </Switch>
         </AppLayout>
       </Router>
     </SidebarContext.Provider>

@@ -12,11 +12,7 @@ const AppLayout: React.FC = ({ children }) => {
   const [appFlag, setAppFlag] = useState(false);
 
   useEffect(() => {
-    if (location.pathname === "/" || location.pathname === "/404") {
-      setAppFlag(false);
-    } else {
-      setAppFlag(true);
-    }
+    setAppFlag(location.pathname !== "/");
   }, [location]);
   return appFlag ? (
     <AppWrapper>
