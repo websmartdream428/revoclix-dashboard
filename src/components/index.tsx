@@ -4,3 +4,4 @@ export { default as AppLogo } from "./AppLogo/AppLogo";
 export { default as AppBreadCrumb } from "./AppBreadcrumb/AppBreadcrumb";
 export { default as UserLogo } from "./UserLogo/UserLogo";
 export { default as CustomButton } from "./CustomButton/CustomButton";
+export { default as Container } from "./Container/Container";

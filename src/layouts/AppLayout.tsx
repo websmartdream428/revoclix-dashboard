@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import Sidebar from "./sidebar/Sidebar";
 import Navbar from "./navbar/Navbar";
 
-import { AppBreadCrumb } from "components";
+import { AppBreadCrumb, Container } from "components";
 import { AppContent, AppWrapper } from "./App.styles";
 
 const AppLayout: React.FC = ({ children }) => {
@@ -20,7 +20,7 @@ const AppLayout: React.FC = ({ children }) => {
       <Navbar />
       <AppContent>
         <AppBreadCrumb />
-        {children}
+        <Container>{children}</Container>
       </AppContent>
     </AppWrapper>
   ) : (
