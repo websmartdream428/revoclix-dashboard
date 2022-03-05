@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
@@ -7,13 +7,14 @@ import { MdCategory } from "react-icons/md";
 import { AiOutlineTransaction, AiTwotoneSetting } from "react-icons/ai";
 
 import { SidebarWrapper } from "./Sidebar.styles";
+import SidebarContext from "context/SidebarContext";
 
 const Sidebar: React.FC = () => {
   const history = useHistory();
-  const [pathname, setPathname] = useState("home");
+  const { sidebar, setSidebar } = useContext<any>(SidebarContext);
 
-  const handleMenuClick = (key: string) => {
-    setPathname(key);
+  const handleMenuClick = (key: string, value: string) => {
+    setSidebar({ key, value });
     history.push(`/${key}`);
   };
 
@@ -22,43 +23,43 @@ const Sidebar: React.FC = () => {
       <ProSidebar>
         <Menu iconShape="square">
           <MenuItem
-            active={pathname === "home"}
-            onClick={() => handleMenuClick("home")}
+            active={sidebar.key === "home"}
+            onClick={() => handleMenuClick("home", "Dashboard")}
             icon={<RiDashboardFill />}
           >
             Dashboard
           </MenuItem>
           <MenuItem
-            active={pathname === "categories"}
-            onClick={() => handleMenuClick("categories")}
+            active={sidebar.key === "categories"}
+            onClick={() => handleMenuClick("categories", "Categories")}
             icon={<MdCategory />}
           >
             Categories
           </MenuItem>
           <MenuItem
-            active={pathname === "customer"}
-            onClick={() => handleMenuClick("customer")}
+            active={sidebar.key === "customer"}
+            onClick={() => handleMenuClick("customer", "Customer")}
             icon={<RiUser2Fill />}
           >
             Customer
           </MenuItem>
           <MenuItem
-            active={pathname === "messages"}
-            onClick={() => handleMenuClick("messages")}
+            active={sidebar.key === "messages"}
+            onClick={() => handleMenuClick("messages", "Messages")}
             icon={<RiMessage2Fill />}
           >
             Messages
           </MenuItem>
           <MenuItem
-            active={pathname === "transaction"}
-            onClick={() => handleMenuClick("transaction")}
+            active={sidebar.key === "transaction"}
+            onClick={() => handleMenuClick("transaction", "Transaction")}
             icon={<AiOutlineTransaction />}
           >
             Transaction
           </MenuItem>
           <MenuItem
-            active={pathname === "settings"}
-            onClick={() => handleMenuClick("settings")}
+            active={sidebar.key === "settings"}
+            onClick={() => handleMenuClick("settings", "Settings")}
             icon={<AiTwotoneSetting />}
           >
             Settings
