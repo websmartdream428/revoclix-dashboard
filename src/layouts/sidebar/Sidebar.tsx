@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { RiDashboardFill, RiUser2Fill, RiMessage2Fill } from "react-icons/ri";
