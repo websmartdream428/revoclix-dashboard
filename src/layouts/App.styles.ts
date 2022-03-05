@@ -8,6 +8,12 @@ export const AppContent = styled.div`
   padding-left: 240px;
   padding-top: 70px;
   background: #eef5f9;
+  transition: all 0.3s;
+
+  @media screen and (max-width: 1024px) {
+    padding-left: 0;
+  }
+
   ::-webkit-scrollbar {
     width: 5px;
     height: 5px;

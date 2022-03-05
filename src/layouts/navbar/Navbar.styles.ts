@@ -15,4 +15,7 @@ export const NavbarSection = styled.div`
   display: flex;
   justify-content: flex-end;
   width: calc(100vw - 260px);
+  @media screen and (max-width: 1024px) {
+    justify-content: space-between;
+  }
 `;
