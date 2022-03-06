@@ -1,17 +1,17 @@
 import React from "react";
-import { MdCategory } from "react-icons/md";
+import { RiMessage2Fill } from "react-icons/ri";
 
 import { PageCard, PageTitle } from "components";
 
-const CategoriesPage: React.FC = () => {
+const MessagesPage: React.FC = () => {
   return (
     <PageCard>
       <PageTitle>
-        <MdCategory />
-        Categories
+        <RiMessage2Fill />
+        Messages
       </PageTitle>
     </PageCard>
   );
 };
 
-export default CategoriesPage;
+export default MessagesPage;

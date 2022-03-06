@@ -1,17 +1,17 @@
 import React from "react";
-import { MdCategory } from "react-icons/md";
+import { RiUser2Fill } from "react-icons/ri";
 
 import { PageCard, PageTitle } from "components";
 
-const CategoriesPage: React.FC = () => {
+const CustomerPage: React.FC = () => {
   return (
     <PageCard>
       <PageTitle>
-        <MdCategory />
-        Categories
+        <RiUser2Fill />
+        Customer
       </PageTitle>
     </PageCard>
   );
 };
 
-export default CategoriesPage;
+export default CustomerPage;
