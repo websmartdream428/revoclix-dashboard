@@ -1,14 +1,15 @@
-import { PageCard } from "components";
-import PageTitle from "components/PageTitle/PageTitle";
 import React from "react";
-import { CategoriesPageWrapper } from "./Categories.styles";
+import { MdCategory } from "react-icons/md";
+
+import { PageCard, PageTitle } from "components";
 
 const CategoriesPage: React.FC = () => {
   return (
     <PageCard>
-      <CategoriesPageWrapper>
-        <PageTitle>Categories</PageTitle>
-      </CategoriesPageWrapper>
+      <PageTitle>
+        <MdCategory />
+        Categories
+      </PageTitle>
     </PageCard>
   );
 };

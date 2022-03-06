@@ -8,3 +8,4 @@ export { default as Container } from "./Container/Container";
 export { default as MenuToggleButton } from "./MenuToggleButton/MenuToggleButton";
 export { default as PageContainer } from "./PageContainer/PageContainer";
 export { default as PageCard } from "./PageCard/PageCard";
+export { default as PageTitle } from "./PageTitle/PageTitle";
