@@ -2,9 +2,9 @@ import React from "react";
 import { Button, Form, Input, Modal, Select, Switch, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
-import { CategoryModal } from "types/ModalProps";
+import { ModalProps } from "types/ModalProps";
 
-const CategoriesModal: React.FC<CategoryModal> = ({
+const CategoriesModal: React.FC<ModalProps> = ({
   visible,
   // data,
   onCancel,

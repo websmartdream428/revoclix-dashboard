@@ -1,4 +1,4 @@
-export interface CategoryModal {
+export interface ModalProps {
   visible?: boolean;
   onOk?: VoidFunction;
   onCancel?: VoidFunction;
