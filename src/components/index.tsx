@@ -9,3 +9,4 @@ export { default as MenuToggleButton } from "./MenuToggleButton/MenuToggleButton
 export { default as PageContainer } from "./PageContainer/PageContainer";
 export { default as PageCard } from "./PageCard/PageCard";
 export { default as PageTitle } from "./PageTitle/PageTitle";
+export { default as SearchBox } from "./SearchBox/SearchBox";

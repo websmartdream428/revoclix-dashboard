@@ -1,3 +1,6 @@
+import { FcCheckmark } from "react-icons/fc";
+import { IoMdClose } from "react-icons/io";
+
 export const CategoriesDataSource = [
   {
     key: "1",
@@ -5,7 +8,7 @@ export const CategoriesDataSource = [
     description:
       "Discover our favirites fashionable discoveries, a selection of cool items to integrate in your wardrobe. Compose a unique style with personality",
     position: 1,
-    displayed: true,
+    displayed: <FcCheckmark />,
   },
   {
     key: "2",
@@ -13,7 +16,7 @@ export const CategoriesDataSource = [
     description:
       "Items and accessories for your desk, kitchen or living room. Make your house a home with our eye-catching designs.",
     position: 2,
-    displayed: true,
+    displayed: <FcCheckmark />,
   },
   {
     key: "3",
@@ -21,6 +24,6 @@ export const CategoriesDataSource = [
     description:
       "Framed poster and vector images, all you need to give personality to your walls or bring your creative projects to life.",
     position: 3,
-    displayed: true,
+    displayed: <IoMdClose fill="#ff0000" />,
   },
 ];

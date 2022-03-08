@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const AppWrapper = styled.div``;
 
 export const AppContent = styled.div`
-  height: calc(100vh - 70px);
+  height: 100vh;
   overflow-y: scroll;
   padding-left: 240px;
   padding-top: 70px;

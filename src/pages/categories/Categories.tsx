@@ -1,20 +1,24 @@
 import React, { useState } from "react";
-import { MdCategory } from "react-icons/md";
+import { MdCategory, MdDelete } from "react-icons/md";
+import { FaEdit } from "react-icons/fa";
 import Highlighter from "react-highlight-words";
-import { Button, Input, Space, Table } from "antd";
+import { Button, Input, Popconfirm, Space, Table } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 
-import { PageCard, PageTitle } from "components";
+import { PageCard, PageTitle, SearchBox } from "components";
 import { CategoriesDataSource } from "mockups/TableDataSource";
+import { CategoriesTableWrapper, TableAction } from "./Categories.styles";
+import { CategoriesModal } from "components/modals";
 
 const CategoriesPage: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<any>([]);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [searchInput, setSearchInput] = useState<any>(null);
+  const [modal, setModal] = useState(false);
+  const [modalData, setModalData] = useState<any>({});
 
   const onSelectChange = (selectedRowKeys: any) => {
-    console.log(selectedRowKeys);
     setSelectedRowKeys(selectedRowKeys);
   };
 
@@ -108,30 +112,55 @@ const CategoriesPage: React.FC = () => {
       ),
   });
 
-  const CategoriesColumn = [
+  const handleDelete = (e: any, row: any) => {
+    console.log(e);
+    console.log(row);
+  };
+
+  const handleModalOk = () => {
+    setModal(false);
+  };
+
+  const handleModalCancel = () => {
+    setModal(false);
+  };
+
+  const handleRowView = (row: any) => {
+    setModal(true);
+    setModalData(row);
+  };
+
+  const handleAddClick = () => {
+    setModal(true);
+  };
+
+  const CategoriesColumn: any = [
     {
       title: "ID",
       dataIndex: "key",
       key: "key",
+      width: 50,
     },
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      sorter: (a: any, b: any) => a.name - b.name,
+      width: 150,
       ...getColumnSearchProps("name"),
     },
     {
       title: "Description",
       dataIndex: "description",
       key: "description",
-      sorter: (a: any, b: any) => a.description - b.description,
+      width: 500,
+      sorter: (a: any, b: any) => a.description.localeCompare(b.description),
       ...getColumnSearchProps("description"),
     },
     {
       title: "Position",
       dataIndex: "position",
       key: "position",
+      width: 100,
       sorter: (a: any, b: any) => a.position - b.position,
       ...getColumnSearchProps("position"),
     },
@@ -139,14 +168,28 @@ const CategoriesPage: React.FC = () => {
       title: "Displayed",
       dataIndex: "displayed",
       key: "displayed",
-      sorter: (a: any, b: any) => a.displayed - b.displayed,
+      width: 100,
       ...getColumnSearchProps("displayed"),
     },
     {
       title: "Action",
       key: "action",
-      sorter: true,
-      render: () => <span>Delete</span>,
+      fixed: "right",
+      width: 70,
+      render: (row: any) => (
+        <TableAction>
+          <FaEdit onClick={() => handleRowView(row)} /> <span>|</span>{" "}
+          <Popconfirm
+            title="Are you sure to delete this item?"
+            onConfirm={(e) => handleDelete(e, row.key)}
+            okText="Yes"
+            cancelText="No"
+            placement="topRight"
+          >
+            <MdDelete />
+          </Popconfirm>
+        </TableAction>
+      ),
     },
   ];
 
@@ -156,16 +199,25 @@ const CategoriesPage: React.FC = () => {
         <MdCategory />
         Categories
       </PageTitle>
-      <Table
-        dataSource={CategoriesDataSource}
-        columns={CategoriesColumn}
-        bordered
-        rowSelection={{
-          selectedRowKeys,
-          onChange: onSelectChange,
-        }}
+      <CategoriesTableWrapper>
+        <SearchBox onClick={handleAddClick} />
+        <Table
+          dataSource={CategoriesDataSource}
+          columns={CategoriesColumn}
+          bordered
+          rowSelection={{
+            selectedRowKeys,
+            onChange: onSelectChange,
+          }}
+          scroll={{ x: 1300 }}
+        />
+      </CategoriesTableWrapper>
+      <CategoriesModal
+        visible={modal}
+        onOk={handleModalOk}
+        onCancel={handleModalCancel}
+        data={modalData}
       />
-      ;
     </PageCard>
   );
 };
