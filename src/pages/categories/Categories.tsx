@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { MdCategory, MdDelete } from "react-icons/md";
 import { FaEdit, FaEye } from "react-icons/fa";
 import Highlighter from "react-highlight-words";
-import { Button, Input, Space, Table } from "antd";
+import { Button, Input, Popconfirm, Space, Table } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 
 import { PageCard, PageTitle } from "components";
@@ -109,6 +109,11 @@ const CategoriesPage: React.FC = () => {
       ),
   });
 
+  const handleDelete = (e: any, row: any) => {
+    console.log(e);
+    console.log(row);
+  };
+
   const CategoriesColumn = [
     {
       title: "ID",
@@ -151,7 +156,16 @@ const CategoriesPage: React.FC = () => {
               console.log(row);
             }}
           />
-          <span>|</span> <FaEdit /> <span>|</span> <MdDelete />
+          <span>|</span> <FaEdit /> <span>|</span>{" "}
+          <Popconfirm
+            title="Are you sure to delete this item?"
+            onConfirm={(e) => handleDelete(e, row.key)}
+            okText="Yes"
+            cancelText="No"
+            placement="topRight"
+          >
+            <MdDelete />
+          </Popconfirm>
         </TableAction>
       ),
     },
@@ -172,7 +186,6 @@ const CategoriesPage: React.FC = () => {
           onChange: onSelectChange,
         }}
       />
-      ;
     </PageCard>
   );
 };

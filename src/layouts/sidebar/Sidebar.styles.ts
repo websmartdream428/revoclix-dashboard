@@ -8,7 +8,7 @@ export const SidebarWrapper = styled.div<FlagProps>`
   background: #fff;
   left: 0;
   height: 100vh;
-  z-index: 9999;
+  z-index: 9;
   transition: all 0.3s;
   box-shadow: 1px 0px 20px rgb(0 0 0 / 8%);
   @media screen and (max-width: 1024px) {

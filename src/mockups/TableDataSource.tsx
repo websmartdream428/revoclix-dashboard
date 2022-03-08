@@ -24,6 +24,6 @@ export const CategoriesDataSource = [
     description:
       "Framed poster and vector images, all you need to give personality to your walls or bring your creative projects to life.",
     position: 3,
-    displayed: <IoMdClose fill="red" />,
+    displayed: <IoMdClose fill="#ff0000" />,
   },
 ];

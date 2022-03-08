@@ -6,7 +6,7 @@ export const NavbarWrapper = styled.div`
   background-color: #1e88e5;
   height: 70px;
   width: 100%;
-  z-index: 99999;
+  z-index: 10;
   box-shadow: 5px 0px 10px rgb(0 0 0 / 50%);
 `;
 
