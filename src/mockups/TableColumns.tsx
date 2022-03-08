@@ -8,13 +8,12 @@ export const CategoriesColumn = [
     title: "Name",
     dataIndex: "name",
     key: "name",
-    sorter: (a: any, b: any) => a.name - b.name,
+    // sorter: (a: any, b: any) => a.name.localCompare(b.name),
   },
   {
     title: "Description",
     dataIndex: "description",
     key: "description",
-    sorter: (a: any, b: any) => a.description - b.description,
   },
   {
     title: "Position",
@@ -26,12 +25,10 @@ export const CategoriesColumn = [
     title: "Displayed",
     dataIndex: "displayed",
     key: "displayed",
-    sorter: (a: any, b: any) => a.displayed - b.displayed,
   },
   {
     title: "Action",
     key: "action",
     sorter: true,
-    render: () => <span>Delete </span>,
   },
 ];

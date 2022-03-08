@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { MdCategory } from "react-icons/md";
+import { MdCategory, MdDelete } from "react-icons/md";
+import { FaEdit, FaEye } from "react-icons/fa";
 import Highlighter from "react-highlight-words";
 import { Button, Input, Space, Table } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 
 import { PageCard, PageTitle } from "components";
 import { CategoriesDataSource } from "mockups/TableDataSource";
+import { TableAction } from "./Categories.styles";
 
 const CategoriesPage: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<any>([]);
@@ -14,7 +16,6 @@ const CategoriesPage: React.FC = () => {
   const [searchInput, setSearchInput] = useState<any>(null);
 
   const onSelectChange = (selectedRowKeys: any) => {
-    console.log(selectedRowKeys);
     setSelectedRowKeys(selectedRowKeys);
   };
 
@@ -118,14 +119,13 @@ const CategoriesPage: React.FC = () => {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      sorter: (a: any, b: any) => a.name - b.name,
       ...getColumnSearchProps("name"),
     },
     {
       title: "Description",
       dataIndex: "description",
       key: "description",
-      sorter: (a: any, b: any) => a.description - b.description,
+      sorter: (a: any, b: any) => a.description.localeCompare(b.description),
       ...getColumnSearchProps("description"),
     },
     {
@@ -139,14 +139,21 @@ const CategoriesPage: React.FC = () => {
       title: "Displayed",
       dataIndex: "displayed",
       key: "displayed",
-      sorter: (a: any, b: any) => a.displayed - b.displayed,
       ...getColumnSearchProps("displayed"),
     },
     {
       title: "Action",
       key: "action",
-      sorter: true,
-      render: () => <span>Delete</span>,
+      render: (row: any) => (
+        <TableAction>
+          <FaEye
+            onClick={() => {
+              console.log(row);
+            }}
+          />
+          <span>|</span> <FaEdit /> <span>|</span> <MdDelete />
+        </TableAction>
+      ),
     },
   ];
 
