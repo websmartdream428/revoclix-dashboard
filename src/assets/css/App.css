@@ -32,3 +32,8 @@
 .ant-table-thead > tr {
   border-bottom: 2px solid #26c6da !important;
 }
+
+.ant-modal-body {
+  height: 80vh;
+  overflow: auto;
+}
