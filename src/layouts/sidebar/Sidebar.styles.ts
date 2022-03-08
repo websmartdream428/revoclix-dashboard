@@ -25,7 +25,7 @@ export const SidebarOverLay = styled.div<FlagProps>`
   left: 0;
   height: 100vh;
   background-color: #00000080;
-  z-index: 999;
+  z-index: 8;
   @media screen and (max-width: 1024px) {
     display: block;
     opacity: ${({ flag }) => (flag ? "1" : "0")};
