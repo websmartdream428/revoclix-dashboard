@@ -10,6 +10,7 @@ export const PageTitleWrapper = styled.div`
   color: #54667a;
   text-transform: capitalize;
   line-height: 25px;
+  margin-bottom: 15px;
   svg {
     margin-right: 10px;
   }

@@ -1,0 +1,37 @@
+export const CategoriesColumn = [
+  {
+    title: "ID",
+    dataIndex: "key",
+    key: "key",
+  },
+  {
+    title: "Name",
+    dataIndex: "name",
+    key: "name",
+    sorter: (a: any, b: any) => a.name - b.name,
+  },
+  {
+    title: "Description",
+    dataIndex: "description",
+    key: "description",
+    sorter: (a: any, b: any) => a.description - b.description,
+  },
+  {
+    title: "Position",
+    dataIndex: "position",
+    key: "position",
+    sorter: (a: any, b: any) => a.position - b.position,
+  },
+  {
+    title: "Displayed",
+    dataIndex: "displayed",
+    key: "displayed",
+    sorter: (a: any, b: any) => a.displayed - b.displayed,
+  },
+  {
+    title: "Action",
+    key: "action",
+    sorter: true,
+    render: () => <span>Delete </span>,
+  },
+];

@@ -24,3 +24,11 @@
 .pro-inner-list-item > div > ul {
   padding: 0 !important;
 }
+
+.ant-dropdown {
+  z-index: 9999 !important;
+}
+
+.ant-table-thead > tr {
+  border-bottom: 2px solid #26c6da !important;
+}
