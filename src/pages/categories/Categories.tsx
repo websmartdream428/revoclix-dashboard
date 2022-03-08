@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { MdCategory, MdDelete } from "react-icons/md";
-import { FaEdit, FaEye } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 import Highlighter from "react-highlight-words";
 import { Button, Input, Popconfirm, Space, Table } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
@@ -130,6 +130,10 @@ const CategoriesPage: React.FC = () => {
     setModalData(row);
   };
 
+  const handleAddClick = () => {
+    setModal(true);
+  };
+
   const CategoriesColumn: any = [
     {
       title: "ID",
@@ -171,11 +175,10 @@ const CategoriesPage: React.FC = () => {
       title: "Action",
       key: "action",
       fixed: "right",
-      width: 100,
+      width: 70,
       render: (row: any) => (
         <TableAction>
-          <FaEye onClick={() => handleRowView(row)} />
-          <span>|</span> <FaEdit /> <span>|</span>{" "}
+          <FaEdit onClick={() => handleRowView(row)} /> <span>|</span>{" "}
           <Popconfirm
             title="Are you sure to delete this item?"
             onConfirm={(e) => handleDelete(e, row.key)}
@@ -197,7 +200,7 @@ const CategoriesPage: React.FC = () => {
         Categories
       </PageTitle>
       <CategoriesTableWrapper>
-        <SearchBox />
+        <SearchBox onClick={handleAddClick} />
         <Table
           dataSource={CategoriesDataSource}
           columns={CategoriesColumn}
