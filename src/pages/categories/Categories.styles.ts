@@ -19,3 +19,5 @@ export const TableAction = styled.div`
     }
   }
 `;
+
+export const CategoriesTableWrapper = styled.div``;

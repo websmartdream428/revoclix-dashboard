@@ -5,15 +5,18 @@ import Highlighter from "react-highlight-words";
 import { Button, Input, Popconfirm, Space, Table } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 
-import { PageCard, PageTitle } from "components";
+import { PageCard, PageTitle, SearchBox } from "components";
 import { CategoriesDataSource } from "mockups/TableDataSource";
-import { TableAction } from "./Categories.styles";
+import { CategoriesTableWrapper, TableAction } from "./Categories.styles";
+import { CategoriesModal } from "components/modals";
 
 const CategoriesPage: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<any>([]);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [searchInput, setSearchInput] = useState<any>(null);
+  const [modal, setModal] = useState(false);
+  const [modalData, setModalData] = useState<any>({});
 
   const onSelectChange = (selectedRowKeys: any) => {
     setSelectedRowKeys(selectedRowKeys);
@@ -114,22 +117,38 @@ const CategoriesPage: React.FC = () => {
     console.log(row);
   };
 
-  const CategoriesColumn = [
+  const handleModalOk = () => {
+    setModal(false);
+  };
+
+  const handleModalCancel = () => {
+    setModal(false);
+  };
+
+  const handleRowView = (row: any) => {
+    setModal(true);
+    setModalData(row);
+  };
+
+  const CategoriesColumn: any = [
     {
       title: "ID",
       dataIndex: "key",
       key: "key",
+      width: 50,
     },
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
+      width: 150,
       ...getColumnSearchProps("name"),
     },
     {
       title: "Description",
       dataIndex: "description",
       key: "description",
+      width: 500,
       sorter: (a: any, b: any) => a.description.localeCompare(b.description),
       ...getColumnSearchProps("description"),
     },
@@ -137,6 +156,7 @@ const CategoriesPage: React.FC = () => {
       title: "Position",
       dataIndex: "position",
       key: "position",
+      width: 100,
       sorter: (a: any, b: any) => a.position - b.position,
       ...getColumnSearchProps("position"),
     },
@@ -144,18 +164,17 @@ const CategoriesPage: React.FC = () => {
       title: "Displayed",
       dataIndex: "displayed",
       key: "displayed",
+      width: 100,
       ...getColumnSearchProps("displayed"),
     },
     {
       title: "Action",
       key: "action",
+      fixed: "right",
+      width: 100,
       render: (row: any) => (
         <TableAction>
-          <FaEye
-            onClick={() => {
-              console.log(row);
-            }}
-          />
+          <FaEye onClick={() => handleRowView(row)} />
           <span>|</span> <FaEdit /> <span>|</span>{" "}
           <Popconfirm
             title="Are you sure to delete this item?"
@@ -177,14 +196,24 @@ const CategoriesPage: React.FC = () => {
         <MdCategory />
         Categories
       </PageTitle>
-      <Table
-        dataSource={CategoriesDataSource}
-        columns={CategoriesColumn}
-        bordered
-        rowSelection={{
-          selectedRowKeys,
-          onChange: onSelectChange,
-        }}
+      <CategoriesTableWrapper>
+        <SearchBox />
+        <Table
+          dataSource={CategoriesDataSource}
+          columns={CategoriesColumn}
+          bordered
+          rowSelection={{
+            selectedRowKeys,
+            onChange: onSelectChange,
+          }}
+          scroll={{ x: 1300 }}
+        />
+      </CategoriesTableWrapper>
+      <CategoriesModal
+        visible={modal}
+        onOk={handleModalOk}
+        onCancel={handleModalCancel}
+        data={modalData}
       />
     </PageCard>
   );
