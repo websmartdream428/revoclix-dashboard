@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { RiDashboardFill, RiUser2Fill, RiMessage2Fill } from "react-icons/ri";
-import { MdCategory } from "react-icons/md";
+import { MdCategory, MdProductionQuantityLimits } from "react-icons/md";
 import { AiOutlineTransaction, AiTwotoneSetting } from "react-icons/ai";
 
 import { SidebarOverLay, SidebarWrapper } from "./Sidebar.styles";
@@ -47,6 +47,13 @@ const Sidebar: React.FC<FlagProps> = ({ flag, onClick }) => {
               Customer
             </MenuItem>
             <MenuItem
+              active={sidebar.key === "product"}
+              onClick={() => handleMenuClick("product", "Product")}
+              icon={<MdProductionQuantityLimits />}
+            >
+              Product
+            </MenuItem>
+            <MenuItem
               active={sidebar.key === "messages"}
               onClick={() => handleMenuClick("messages", "Messages")}
               icon={<RiMessage2Fill />}
@@ -67,10 +74,6 @@ const Sidebar: React.FC<FlagProps> = ({ flag, onClick }) => {
             >
               Settings
             </MenuItem>
-            {/* <SubMenu title="Components" icon={<FaHeart />}>
-            <MenuItem>Component 1</MenuItem>
-            <MenuItem>Component 2</MenuItem>
-          </SubMenu> */}
           </Menu>
         </ProSidebar>
       </SidebarWrapper>
