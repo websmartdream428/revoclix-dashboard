@@ -11,7 +11,7 @@ import { SearchBox } from "components";
 import { TableAction } from "pages/categories/Categories.styles";
 import { TableWrapper } from "./Settings.styles";
 import { LanguageDataSource } from "mockups/TableDataSource";
-import LanguageModal from "components/modals/Settings/LanguageModal";
+import { LanguageModal } from "components/modals";
 
 const LanguageSetting: React.FC = () => {
   const [searchText, setSearchText] = useState("");
