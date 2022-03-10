@@ -6,6 +6,7 @@ import AppLayout from "layouts/AppLayout";
 import { LoginPage } from "./login";
 import { HomePage } from "./home";
 import { CategoriesPage } from "./categories";
+import { ProductPage } from "./product";
 import { NotFoundPage } from "./NotFound";
 import { CustomerPage } from "./customer";
 import { TransationPage } from "./transation";
@@ -26,6 +27,7 @@ function App() {
             <Route exact path="/" component={LoginPage} />
             <Route exact path="/home" component={HomePage} />
             <Route exact path="/categories" component={CategoriesPage} />
+            <Route exact path="/product" component={ProductPage} />
             <Route exact path="/customer" component={CustomerPage} />
             <Route exact path="/messages" component={MessagesPage} />
             <Route exact path="/transaction" component={TransationPage} />

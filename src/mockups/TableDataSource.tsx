@@ -1,3 +1,4 @@
+import { GrStatusGoodSmall } from "react-icons/gr";
 import { FcCheckmark } from "react-icons/fc";
 import { IoMdClose } from "react-icons/io";
 import US from "assets/image/US.svg";
@@ -50,5 +51,57 @@ export const LanguageDataSource = [
     dateFormat: "m/d/Y",
     dateFormatFull: "m/d/Y H:i:s",
     enabled: <FcCheckmark />,
+  },
+];
+
+export const TranslateDataSource = [
+  {
+    key: 1,
+    flag: <img src={US} alt="US" />,
+    name: "English (English)",
+    iso: "en",
+    language: "en-us",
+    dateFormat: "m/d/Y",
+    dateFormatFull: "m/d/Y H:i:s",
+    enabled: <FcCheckmark />,
+  },
+  {
+    key: 2,
+    flag: <img src={FR} alt="FR" />,
+    name: "Français (French)",
+    iso: "en",
+    language: "fr",
+    dateFormat: "m/d/Y",
+    dateFormatFull: "m/d/Y H:i:s",
+    enabled: <FcCheckmark />,
+  },
+];
+
+export const CustomerDataSource = [
+  {
+    key: 1,
+    customer: "John DOE",
+    email: "--",
+    type: "Customer service",
+    language: "English (English)",
+    status: <GrStatusGoodSmall fill="green" />,
+    employee: "--",
+    messages: "Hello, I'd like more information ...",
+    private: "X",
+    lastMessage: "10/21/2016 13:08:53",
+    shop: "ps17en",
+  },
+  {
+    key: 2,
+    customer: "--",
+    email: "jane@customer.com",
+    type: "Customer service",
+    language: "English (English)",
+    status: <GrStatusGoodSmall fill="green" />,
+    employee: "--",
+    messages: "I didn't receive my ...",
+    private: "X",
+    lastMessage: "10/21/2016 13:07:25",
+    shop: "ps17en",
   },
 ];
