@@ -40,19 +40,20 @@ const Sidebar: React.FC<FlagProps> = ({ flag, onClick }) => {
               Categories
             </MenuItem>
             <MenuItem
-              active={sidebar.key === "customer"}
-              onClick={() => handleMenuClick("customer", "Customer")}
-              icon={<RiUser2Fill />}
-            >
-              Customer
-            </MenuItem>
-            <MenuItem
               active={sidebar.key === "product"}
               onClick={() => handleMenuClick("product", "Product")}
               icon={<MdProductionQuantityLimits />}
             >
               Product
             </MenuItem>
+            <MenuItem
+              active={sidebar.key === "customer"}
+              onClick={() => handleMenuClick("customer", "Customer")}
+              icon={<RiUser2Fill />}
+            >
+              Customer
+            </MenuItem>
+
             <MenuItem
               active={sidebar.key === "messages"}
               onClick={() => handleMenuClick("messages", "Messages")}
