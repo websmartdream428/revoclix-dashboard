@@ -5,6 +5,7 @@ import US from "assets/image/US.svg";
 import FR from "assets/image/FR.svg";
 import productImg from "assets/image/image.jpg";
 import brandImg from "assets/image/brand.jpg";
+import { Badge } from "antd";
 
 export const CategoriesDataSource = [
   {
@@ -82,28 +83,36 @@ export const TranslateDataSource = [
 export const CustomerDataSource = [
   {
     key: 1,
-    customer: "John DOE",
-    email: "--",
-    type: "Customer service",
-    language: "English (English)",
-    status: <GrStatusGoodSmall fill="green" />,
-    employee: "--",
-    messages: "Hello, I'd like more information ...",
-    private: "X",
-    lastMessage: "10/21/2016 13:08:53",
+    social: "Mr.",
+    firstname: "John",
+    lastname: "DOE",
+    email: "jane@example.com",
+    sales: "-",
+    enabled: <FcCheckmark />,
+    newsletter: <IoMdClose fill="#ff0000" />,
+    partnerOffers: <IoMdClose fill="#ff0000" />,
+    registration: "10/27/2016",
+    lastvisit: "--",
     shop: "ps17en",
   },
   {
     key: 2,
-    customer: "--",
-    email: "jane@customer.com",
-    type: "Customer service",
-    language: "English (English)",
-    status: <GrStatusGoodSmall fill="green" />,
-    employee: "--",
-    messages: "I didn't receive my ...",
-    private: "X",
-    lastMessage: "10/21/2016 13:07:25",
+    social: "Mrs.",
+    firstname: "John",
+    lastname: "DOE",
+    email: "",
+    sales: (
+      <Badge
+        className="site-badge-count-109"
+        count={"$33.99"}
+        style={{ backgroundColor: "#52c41a" }}
+      />
+    ),
+    enabled: <FcCheckmark />,
+    newsletter: <FcCheckmark />,
+    partnerOffers: <FcCheckmark />,
+    registration: "10/27/2016",
+    lastvisit: "10/27/2016 18:33:44",
     shop: "ps17en",
   },
 ];
@@ -238,5 +247,34 @@ export const BrandDataSource = [
     addresses: "-",
     products: "4",
     enabled: <FcCheckmark />,
+  },
+];
+
+export const MessageDataSource = [
+  {
+    key: 1,
+    customer: "John DOE",
+    email: "--",
+    type: "Customer service",
+    language: "English (English)",
+    status: <GrStatusGoodSmall fill="green" />,
+    employee: "--",
+    messages: "Hello, I'd like more information ...",
+    private: "X",
+    lastMessage: "10/21/2016 13:08:53",
+    shop: "ps17en",
+  },
+  {
+    key: 2,
+    customer: "--",
+    email: "jane@customer.com",
+    type: "Customer service",
+    language: "English (English)",
+    status: <GrStatusGoodSmall fill="green" />,
+    employee: "--",
+    messages: "I didn't receive my ...",
+    private: "X",
+    lastMessage: "10/21/2016 13:07:25",
+    shop: "ps17en",
   },
 ];
