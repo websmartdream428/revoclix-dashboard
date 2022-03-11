@@ -16,8 +16,8 @@ const MessagesPage: React.FC = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [searchInput, setSearchInput] = useState<any>(null);
-  const [modal, setModal] = useState(false);
-  const [modalData, setModalData] = useState<any>({});
+  // const [modal, setModal] = useState(false);
+  // const [modalData, setModalData] = useState<any>({});
 
   const onSelectChange = (selectedRowKeys: any) => {
     setSelectedRowKeys(selectedRowKeys);
@@ -118,21 +118,21 @@ const MessagesPage: React.FC = () => {
     console.log(row);
   };
 
-  const handleModalOk = () => {
-    setModal(false);
-  };
+  // const handleModalOk = () => {
+  //   setModal(false);
+  // };
 
-  const handleModalCancel = () => {
-    setModal(false);
-  };
+  // const handleModalCancel = () => {
+  //   setModal(false);
+  // };
 
   const handleRowView = (row: any) => {
-    setModal(true);
-    setModalData(row);
+    // setModal(true);
+    // setModalData(row);
   };
 
   const handleAddClick = () => {
-    setModal(true);
+    // setModal(true);
   };
 
   const MessageColumn: any = [

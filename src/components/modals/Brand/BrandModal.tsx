@@ -18,9 +18,9 @@ const BrandModal: React.FC<ModalProps> = ({
     );
   }
 
-  const handleChange = (value: any) => {
-    console.log(`selected ${value}`);
-  };
+  // const handleChange = (value: any) => {
+  //   console.log(`selected ${value}`);
+  // };
   return (
     <Modal
       title="Brand"
