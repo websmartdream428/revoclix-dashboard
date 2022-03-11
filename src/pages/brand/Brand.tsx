@@ -1,16 +1,19 @@
 import React, { useState } from "react";
 import Highlighter from "react-highlight-words";
-import { MdDelete, MdProductionQuantityLimits } from "react-icons/md";
-import { PageCard, PageTitle, SearchBox } from "components";
-import { ProductTableWrapper } from "./Product.styles";
-import { Button, Input, Popconfirm, Space, Table } from "antd";
+import { SiBrandfolder } from "react-icons/si";
 import { SearchOutlined } from "@ant-design/icons";
-import { TableAction } from "pages/categories/Categories.styles";
+import { Button, Input, Popconfirm, Space, Table } from "antd";
 import { FaEdit } from "react-icons/fa";
-import { ProductDataSource } from "mockups/TableDataSource";
-import { ProductModal } from "components/modals";
+import { MdDelete } from "react-icons/md";
 
-const ProductPage: React.FC = () => {
+import { PageCard, PageTitle, SearchBox } from "components";
+
+import { BrandTableWrapper } from "./Brand.styles";
+import { TableAction } from "pages/categories/Categories.styles";
+import { BrandDataSource } from "mockups/TableDataSource";
+import BrandModal from "components/modals/Brand/BrandModal";
+
+const BrandPage: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<any>([]);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -134,7 +137,7 @@ const ProductPage: React.FC = () => {
     setModal(true);
   };
 
-  const ProductColumn: any = [
+  const BrandColumn: any = [
     {
       title: "ID",
       dataIndex: "key",
@@ -142,65 +145,37 @@ const ProductPage: React.FC = () => {
       width: 50,
     },
     {
-      title: "Image",
-      dataIndex: "image",
-      key: "image",
-      width: 60,
-    },
-    {
-      title: "User",
-      dataIndex: "user",
-      key: "user",
-      width: 90,
-      sorter: (a: any, b: any) => a.user.localeCompare(b.user),
-      ...getColumnSearchProps("user"),
+      title: "Logo",
+      dataIndex: "logo",
+      key: "logo",
+      width: 150,
     },
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      width: 100,
+      width: 200,
       sorter: (a: any, b: any) => a.name.localeCompare(b.name),
       ...getColumnSearchProps("name"),
     },
     {
-      title: "Reference",
-      dataIndex: "reference",
-      key: "reference",
+      title: "Addresses",
+      dataIndex: "addresses",
+      key: "addresses",
       width: 100,
-      sorter: (a: any, b: any) => a.reference.localeCompare(b.reference),
-      ...getColumnSearchProps("reference"),
     },
     {
-      title: "Category",
-      dataIndex: "category",
-      key: "category",
+      title: "Products",
+      dataIndex: "products",
+      key: "products",
       width: 100,
-      sorter: (a: any, b: any) => a.category.localeCompare(b.category),
-      ...getColumnSearchProps("category"),
     },
     {
-      title: "Base price",
-      dataIndex: "price",
-      key: "price",
+      title: "Enabled",
+      dataIndex: "enabled",
+      key: "enabled",
       width: 100,
-      sorter: (a: any, b: any) => a.price.localeCompare(b.price),
-      ...getColumnSearchProps("price"),
-    },
-    {
-      title: "Quantity",
-      dataIndex: "quantity",
-      key: "quantity",
-      width: 100,
-      sorter: (a: any, b: any) => a.quantity - b.quantity,
-      ...getColumnSearchProps("quantity"),
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      width: 100,
-      ...getColumnSearchProps("status"),
+      ...getColumnSearchProps("enabled"),
     },
     {
       title: "Action",
@@ -227,23 +202,23 @@ const ProductPage: React.FC = () => {
   return (
     <PageCard>
       <PageTitle>
-        <MdProductionQuantityLimits />
-        Product
+        <SiBrandfolder />
+        Brand
       </PageTitle>
-      <ProductTableWrapper>
+      <BrandTableWrapper>
         <SearchBox onClick={handleAddClick} />
         <Table
-          dataSource={ProductDataSource}
-          columns={ProductColumn}
+          dataSource={BrandDataSource}
+          columns={BrandColumn}
           bordered
           rowSelection={{
             selectedRowKeys,
             onChange: onSelectChange,
           }}
-          scroll={{ x: 800 }}
+          scroll={{ x: 1000 }}
         />
-      </ProductTableWrapper>
-      <ProductModal
+      </BrandTableWrapper>
+      <BrandModal
         visible={modal}
         onOk={handleModalOk}
         onCancel={handleModalCancel}
@@ -253,4 +228,4 @@ const ProductPage: React.FC = () => {
   );
 };
 
-export default ProductPage;
+export default BrandPage;

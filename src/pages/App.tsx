@@ -9,6 +9,7 @@ import { CategoriesPage } from "./categories";
 import { ProductPage } from "./product";
 import { NotFoundPage } from "./NotFound";
 import { CustomerPage } from "./customer";
+import { BrandPage } from "./brand";
 import { TransationPage } from "./transation";
 import { MessagesPage } from "./messages";
 import { SettingsPage } from "./settings";
@@ -29,6 +30,7 @@ function App() {
             <Route exact path="/categories" component={CategoriesPage} />
             <Route exact path="/product" component={ProductPage} />
             <Route exact path="/customer" component={CustomerPage} />
+            <Route exact path="/brand" component={BrandPage} />
             <Route exact path="/messages" component={MessagesPage} />
             <Route exact path="/transaction" component={TransationPage} />
             <Route exact path="/settings" component={SettingsPage} />
