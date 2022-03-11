@@ -151,7 +151,7 @@ const ProductPage: React.FC = () => {
       title: "User",
       dataIndex: "user",
       key: "user",
-      width: 100,
+      width: 90,
       sorter: (a: any, b: any) => a.user.localeCompare(b.user),
       ...getColumnSearchProps("user"),
     },
@@ -199,7 +199,7 @@ const ProductPage: React.FC = () => {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      width: 70,
+      width: 100,
       ...getColumnSearchProps("status"),
     },
     {
@@ -240,7 +240,7 @@ const ProductPage: React.FC = () => {
             selectedRowKeys,
             onChange: onSelectChange,
           }}
-          scroll={{ x: 1300 }}
+          scroll={{ x: 800 }}
         />
       </ProductTableWrapper>
       <ProductModal

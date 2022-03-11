@@ -152,7 +152,7 @@ const CategoriesPage: React.FC = () => {
       title: "Description",
       dataIndex: "description",
       key: "description",
-      width: 500,
+      width: 530,
       sorter: (a: any, b: any) => a.description.localeCompare(b.description),
       ...getColumnSearchProps("description"),
     },
@@ -209,7 +209,7 @@ const CategoriesPage: React.FC = () => {
             selectedRowKeys,
             onChange: onSelectChange,
           }}
-          scroll={{ x: 1300 }}
+          scroll={{ x: 1000 }}
         />
       </CategoriesTableWrapper>
       <CategoriesModal

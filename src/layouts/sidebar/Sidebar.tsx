@@ -5,6 +5,7 @@ import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { RiDashboardFill, RiUser2Fill, RiMessage2Fill } from "react-icons/ri";
 import { MdCategory, MdProductionQuantityLimits } from "react-icons/md";
 import { AiOutlineTransaction, AiTwotoneSetting } from "react-icons/ai";
+import { SiBrandfolder } from "react-icons/si";
 
 import { SidebarOverLay, SidebarWrapper } from "./Sidebar.styles";
 import SidebarContext from "context/SidebarContext";
@@ -53,7 +54,13 @@ const Sidebar: React.FC<FlagProps> = ({ flag, onClick }) => {
             >
               Customer
             </MenuItem>
-
+            <MenuItem
+              active={sidebar.key === "brand"}
+              onClick={() => handleMenuClick("brand", "Brand")}
+              icon={<SiBrandfolder />}
+            >
+              Brand
+            </MenuItem>
             <MenuItem
               active={sidebar.key === "messages"}
               onClick={() => handleMenuClick("messages", "Messages")}
