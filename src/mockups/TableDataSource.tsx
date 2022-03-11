@@ -4,6 +4,7 @@ import { IoMdClose } from "react-icons/io";
 import US from "assets/image/US.svg";
 import FR from "assets/image/FR.svg";
 import productImg from "assets/image/image.jpg";
+import brandImg from "assets/image/brand.jpg";
 
 export const CategoriesDataSource = [
   {
@@ -192,5 +193,50 @@ export const ProductDataSource = [
     price: "$27.00",
     quantity: 1799,
     status: <FcCheckmark />,
+  },
+];
+
+export const BrandDataSource = [
+  {
+    key: 1,
+    logo: (
+      <img
+        src={brandImg}
+        alt="brandImg"
+        style={{ width: 120, height: 60, objectFit: "cover" }}
+      />
+    ),
+    name: "5.11 Tccical",
+    addresses: "-",
+    products: "4",
+    enabled: <FcCheckmark />,
+  },
+  {
+    key: 2,
+    logo: (
+      <img
+        src={brandImg}
+        alt="brandImg"
+        style={{ width: 120, height: 60, objectFit: "cover" }}
+      />
+    ),
+    name: "5.11 Tccical",
+    addresses: "-",
+    products: "4",
+    enabled: <FcCheckmark />,
+  },
+  {
+    key: 3,
+    logo: (
+      <img
+        src={brandImg}
+        alt="brandImg"
+        style={{ width: 120, height: 60, objectFit: "cover" }}
+      />
+    ),
+    name: "5.11 Tccical",
+    addresses: "-",
+    products: "4",
+    enabled: <FcCheckmark />,
   },
 ];
