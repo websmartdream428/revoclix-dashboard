@@ -15,6 +15,7 @@ import { MessagesPage } from "./messages";
 import { SettingsPage } from "./settings";
 
 import SidebarContext from "context/SidebarContext";
+import { PrivateRoute } from "components";
 
 function App() {
   const [sidebar, setSidebar] = useState({ key: "home", value: "dashboard" });
@@ -26,15 +27,41 @@ function App() {
         <AppLayout>
           <Switch>
             <Route exact path="/" component={LoginPage} />
-            <Route exact path="/home" component={HomePage} />
-            <Route exact path="/categories" component={CategoriesPage} />
-            <Route exact path="/product" component={ProductPage} />
-            <Route exact path="/customer" component={CustomerPage} />
-            <Route exact path="/brand" component={BrandPage} />
-            <Route exact path="/messages" component={MessagesPage} />
-            <Route exact path="/transaction" component={TransationPage} />
-            <Route exact path="/settings" component={SettingsPage} />
-            <Route exact path="*" component={NotFoundPage} />
+            <Switch>
+              <PrivateRoute exact path="/home" component={HomePage} />
+            </Switch>
+            <Switch>
+              <PrivateRoute
+                exact
+                path="/categories"
+                component={CategoriesPage}
+              />
+            </Switch>
+            <Switch>
+              <PrivateRoute exact path="/product" component={ProductPage} />
+            </Switch>
+            <Switch>
+              <PrivateRoute exact path="/customer" component={CustomerPage} />
+            </Switch>
+            <Switch>
+              <PrivateRoute exact path="/brand" component={BrandPage} />
+            </Switch>
+            <Switch>
+              <PrivateRoute exact path="/messages" component={MessagesPage} />
+            </Switch>
+            <Switch>
+              <PrivateRoute
+                exact
+                path="/transaction"
+                component={TransationPage}
+              />
+            </Switch>
+            <Switch>
+              <PrivateRoute exact path="/settings" component={SettingsPage} />
+            </Switch>
+            <Switch>
+              <PrivateRoute exact path="*" component={NotFoundPage} />
+            </Switch>
           </Switch>
         </AppLayout>
       </Router>
