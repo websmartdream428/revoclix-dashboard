@@ -37,6 +37,7 @@ export const editBrand = async (id: any, data: any) => {
     formData.append("id", id);
     formData.append("name", data.name);
     formData.append("description", data.description);
+    formData.append("id_lang", data.id_lang);
     formData.append("active", data.active);
     formData.append("meta_title", data.meta_title);
     formData.append("flag_updated", data.flag_updated);

@@ -37,14 +37,13 @@ const BrandModal: React.FC<ModalProps> = ({
 
   useEffect(() => {
     if (data.id) {
-      console.log(data);
       setState({
         name: data.name,
         meta_title: data.meta_title,
         active: data.active,
         id_lang: data.id_lang,
         description: data.description,
-        filePath: data.filePath,
+        filePath: data.logo,
         file: [],
         flag_updated: false,
       });
@@ -68,7 +67,6 @@ const BrandModal: React.FC<ModalProps> = ({
 
   const handleSave = async () => {
     const valid = await addValidation(editId, state);
-    console.log(state);
     if (!valid.valid) {
       toast.error(valid.message, { theme: "colored", autoClose: 3000 });
     } else {
