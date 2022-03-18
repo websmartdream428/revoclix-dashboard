@@ -2,15 +2,17 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./pages/App";
 import reportWebVitals from "./reportWebVitals";
+import "react-toastify/dist/ReactToastify.css";
+import "antd/dist/antd.css";
 import "assets/css/index.css";
 import "assets/css/App.css";
 import "assets/css/react-pro-sidebar.css";
-import "antd/dist/antd.css";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <App />,
+  // </React.StrictMode>,
   document.getElementById("root")
 );
 

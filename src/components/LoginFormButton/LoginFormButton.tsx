@@ -4,9 +4,11 @@ import { LoginButtonProps } from "types/loginFormButtonProps";
 
 import { LoginFormButtonWrapper } from "./LoginFormButton.styles";
 
-const LoginFormButton: React.FC<LoginButtonProps> = ({ onClick }) => {
+const LoginFormButton: React.FC<LoginButtonProps> = ({ onClick, loading }) => {
   return (
-    <LoginFormButtonWrapper onClick={onClick}>Login</LoginFormButtonWrapper>
+    <LoginFormButtonWrapper onClick={loading ? () => {} : onClick}>
+      {loading ? "Loading..." : "Login"}
+    </LoginFormButtonWrapper>
   );
 };
 
