@@ -1,6 +1,6 @@
 export interface ModalProps {
   visible?: boolean;
   onOk: VoidFunction;
-  onCancel?: VoidFunction;
+  onCancel: VoidFunction;
   data?: any;
 }

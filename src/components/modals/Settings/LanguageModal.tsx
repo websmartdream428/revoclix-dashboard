@@ -18,26 +18,62 @@ const LanguageModal: React.FC<ModalProps> = ({ visible, onCancel, onOk }) => {
     file: [],
   });
   const { language, setLanguage } = useContext<any>(LanguageContext);
+  const [loading, setLoading] = useState(false);
+
+  const defaultState = () => {
+    setState({
+      name: "",
+      iso_code: "",
+      date_format: "",
+      date_format_full: "",
+      code: "",
+      active: 0,
+      file: [],
+    });
+  };
 
   const handleSave = async () => {
-    console.log(language);
     const valid = await addValidation(state);
     if (!valid.valid) {
       toast.error(valid.message, { theme: "colored", autoClose: 3000 });
     } else {
+      setLoading(true);
       const res = await addLanguage(state);
+      if (res.type === "success") {
+        setLanguage([...language, res.data]);
+        await defaultState();
+        onOk();
 
-      setLanguage([...language, res.data]);
+        setLoading(false);
+      } else {
+        toast.error(res.message, { theme: "colored", autoClose: 3000 });
+      }
     }
-    onOk();
+  };
+
+  const handleCancel = async () => {
+    await defaultState();
+    onCancel();
   };
 
   const handleChange = (e: any) => {
     setState({ ...state, [e.target.name]: e.target.value });
   };
 
+  const beforeUpload = (e: any) => {
+    if (e.type.split("/")[0] !== "image") {
+      toast.error("you can upload only Image file.", {
+        theme: "colored",
+        autoClose: 3000,
+      });
+      setState({ ...state, file: [] });
+    }
+  };
+
   const handleFileUpload = (e: any) => {
-    console.log(e.file.status);
+    if (e.file.originFileObj.type.split("/")[0] !== "image") {
+      setState({ ...state, file: [] });
+    }
   };
 
   const customFileAction = ({ file, onSuccess }: any) => {
@@ -57,8 +93,9 @@ const LanguageModal: React.FC<ModalProps> = ({ visible, onCancel, onOk }) => {
       centered
       visible={visible}
       width={"90%"}
-      onCancel={onCancel}
+      onCancel={handleCancel}
       onOk={handleSave}
+      okButtonProps={{ loading: loading }}
     >
       <ToastContainer />
       <Form
@@ -106,11 +143,12 @@ const LanguageModal: React.FC<ModalProps> = ({ visible, onCancel, onOk }) => {
           <Upload
             name="flag"
             customRequest={customFileAction}
-            // action={"/file/flag"}
             listType="picture"
+            beforeUpload={beforeUpload}
             onChange={handleFileUpload}
             multiple={false}
             onRemove={handleFileRemove}
+            fileList={state.file}
           >
             {state.file.length > 0 ? (
               ""

@@ -30,3 +30,12 @@ export const addLanguage = async (data: any) => {
     return err.response.data;
   }
 };
+
+export const removeLanguage = async (language_id: number) => {
+  try {
+    const res = await axios.post("/lang/remove", { language_id });
+    return res.data;
+  } catch (err: any) {
+    return err.response.data;
+  }
+};

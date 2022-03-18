@@ -3,8 +3,18 @@ export const addValidation = (data: any) => {
     return { valid: false, message: "Language name is required." };
   } else if (data.iso_code === "") {
     return { valid: false, message: "ISO code is required." };
+  } else if (data.iso_code.length > 10 || data.iso_code.length < 2) {
+    return {
+      valid: false,
+      message: "ISO code must be between 2 and 10 characters.",
+    };
   } else if (data.code === "") {
     return { valid: false, message: "Language code is required." };
+  } else if (data.code.length > 10 || data.code.length < 2) {
+    return {
+      valid: false,
+      message: "Language code must be between 2 and 10 characters.",
+    };
   } else if (data.date_format === "") {
     return { valid: false, message: "Date Formart is required." };
   } else if (data.date_format_full === "") {

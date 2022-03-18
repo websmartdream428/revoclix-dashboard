@@ -9,9 +9,9 @@ import "assets/css/App.css";
 import "assets/css/react-pro-sidebar.css";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <App />,
+  // </React.StrictMode>,
   document.getElementById("root")
 );
 

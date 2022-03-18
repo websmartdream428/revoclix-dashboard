@@ -5,15 +5,18 @@ import { Button, Input, Popconfirm, Space, Table } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { FcCheckmark } from "react-icons/fc";
+import { IoMdClose } from "react-icons/io";
+import { toast, ToastContainer } from "react-toastify";
 
+import { LanguageContext } from "context";
 import { SearchBox } from "components";
+import { LanguageModal } from "components/modals";
+
+import { removeLanguage } from "actions/language.action";
 
 import { TableAction } from "pages/categories/Categories.styles";
 import { TableWrapper } from "./Settings.styles";
-import { LanguageModal } from "components/modals";
-import { LanguageContext } from "context";
-import { FcCheckmark } from "react-icons/fc";
-import { IoMdClose } from "react-icons/io";
 
 const LanguageSetting: React.FC = () => {
   const [searchText, setSearchText] = useState("");
@@ -22,12 +25,14 @@ const LanguageSetting: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<any>([]);
   const [modal, setModal] = useState(false);
   const [modalData, setModalData] = useState<any>({});
-  const { language } = useContext<any>(LanguageContext);
+  const { language, setLanguage } = useContext<any>(LanguageContext);
   const [tabledata, setTabledata] = useState<any>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     const tempData = language.map((item: any, key: any) => ({
-      key: key + 1 + 121,
+      key: key + 1,
       id: item.id,
       flag: item.flag,
       flag_view: (
@@ -44,11 +49,16 @@ const LanguageSetting: React.FC = () => {
       code: item.code,
       date_format: item.date_format,
       date_format_full: item.date_format_full,
-      active: item.active,
+      active: Number(item.active),
       active_view:
-        item.active === 1 ? <FcCheckmark /> : <IoMdClose fill="#ff0000" />,
+        Number(item.active) === 1 ? (
+          <FcCheckmark />
+        ) : (
+          <IoMdClose fill="#ff0000" />
+        ),
     }));
     setTabledata(tempData);
+    setLoading(false);
   }, [language]);
 
   const handleSearch = (selectedKeys: any, confirm: any, dataIndex: any) => {
@@ -141,9 +151,19 @@ const LanguageSetting: React.FC = () => {
       ),
   });
 
-  const handleDelete = (e: any, row: any) => {
-    console.log(e);
-    console.log(row);
+  const handleDelete = async (row: any) => {
+    setLoading(true);
+    const res = await removeLanguage(row.id);
+    if (res.type === "success") {
+      setLanguage(language.filter((item: any) => item.id !== row.id));
+    } else {
+      toast.error("you can upload only Image file.", {
+        theme: "colored",
+        autoClose: 3000,
+      });
+    }
+    setLoading(false);
+    // setLanguage()
   };
 
   const handleModalOk = () => {
@@ -233,7 +253,7 @@ const LanguageSetting: React.FC = () => {
           <FaEdit onClick={() => handleRowView(row)} /> <span>|</span>{" "}
           <Popconfirm
             title="Are you sure to delete this item?"
-            onConfirm={(e) => handleDelete(e, row.key)}
+            onConfirm={() => handleDelete(row)}
             okText="Yes"
             cancelText="No"
             placement="topRight"
@@ -246,10 +266,12 @@ const LanguageSetting: React.FC = () => {
   ];
   return (
     <TableWrapper>
+      <ToastContainer />
       <SearchBox onClick={handleAddClick} />
       <Table
         dataSource={tabledata}
         columns={LanguageColumn}
+        loading={loading}
         bordered
         rowSelection={{
           selectedRowKeys,
