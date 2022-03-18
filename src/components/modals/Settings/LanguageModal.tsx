@@ -30,7 +30,7 @@ const LanguageModal: React.FC<ModalProps> = ({
   const [editId, setEditId] = useState(-1);
 
   useEffect(() => {
-    if (data) {
+    if (data.id) {
       setState({
         name: data.name,
         iso_code: data.iso_code,
@@ -193,7 +193,7 @@ const LanguageModal: React.FC<ModalProps> = ({
               src={state.filePath}
               alt="flag"
               width="80px"
-              style={{ objectFit: "cover" }}
+              style={{ objectFit: "cover", marginRight: "10px" }}
               height="40px"
             />
           )}

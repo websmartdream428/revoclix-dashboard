@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Highlighter from "react-highlight-words";
 import { SiBrandfolder } from "react-icons/si";
 import { SearchOutlined } from "@ant-design/icons";
@@ -10,8 +10,12 @@ import { PageCard, PageTitle, SearchBox } from "components";
 
 import { BrandTableWrapper } from "./Brand.styles";
 import { TableAction } from "pages/categories/Categories.styles";
-import { BrandDataSource } from "mockups/TableDataSource";
 import BrandModal from "components/modals/Brand/BrandModal";
+import { BrandContext } from "context";
+import { FcCheckmark } from "react-icons/fc";
+import { IoMdClose } from "react-icons/io";
+import { removeBrand } from "actions/brand.action";
+import { toast, ToastContainer } from "react-toastify";
 
 const BrandPage: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<any>([]);
@@ -20,6 +24,35 @@ const BrandPage: React.FC = () => {
   const [searchInput, setSearchInput] = useState<any>(null);
   const [modal, setModal] = useState(false);
   const [modalData, setModalData] = useState<any>({});
+  const { brand, setBrand } = useContext<any>(BrandContext);
+  const [tabledata, setTabledata] = useState<any>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    const tempData = brand.map((item: any, key: any) => ({
+      ...item,
+      key: key + 1,
+      logo_view: (
+        <img
+          src={item.logo}
+          width="75px"
+          height="45px"
+          style={{ objectFit: "cover" }}
+          alt={item.logo}
+        />
+      ),
+      active: Number(item.active),
+      active_view:
+        Number(item.active) === 1 ? (
+          <FcCheckmark />
+        ) : (
+          <IoMdClose fill="#ff0000" />
+        ),
+    }));
+    setTabledata(tempData);
+    setLoading(false);
+  }, [brand]);
 
   const onSelectChange = (selectedRowKeys: any) => {
     setSelectedRowKeys(selectedRowKeys);
@@ -115,9 +148,19 @@ const BrandPage: React.FC = () => {
       ),
   });
 
-  const handleDelete = (e: any, row: any) => {
-    console.log(e);
-    console.log(row);
+  const handleDelete = async (row: any) => {
+    setLoading(true);
+    const res = await removeBrand(row.id);
+    if (res.type === "success") {
+      setBrand(brand.filter((item: any) => item.id !== row.id));
+    } else {
+      toast.error(res.message, {
+        theme: "colored",
+        autoClose: 3000,
+      });
+    }
+    setLoading(false);
+    // setLanguage()
   };
 
   const handleModalOk = () => {
@@ -142,52 +185,48 @@ const BrandPage: React.FC = () => {
       title: "ID",
       dataIndex: "key",
       key: "key",
-      width: 50,
+      width: 40,
     },
     {
       title: "Logo",
-      dataIndex: "logo",
-      key: "logo",
-      width: 150,
+      dataIndex: "logo_view",
+      key: "logo_view",
+      width: 70,
     },
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      width: 200,
+      width: 150,
       sorter: (a: any, b: any) => a.name.localeCompare(b.name),
       ...getColumnSearchProps("name"),
     },
     {
-      title: "Addresses",
-      dataIndex: "addresses",
-      key: "addresses",
-      width: 100,
-    },
-    {
-      title: "Products",
-      dataIndex: "products",
-      key: "products",
-      width: 100,
+      title: "Meta title",
+      dataIndex: "meta_title",
+      key: "meta_title",
+      width: 250,
+      sorter: (a: any, b: any) => a.meta_title.localeCompare(b.meta_title),
+      ...getColumnSearchProps("meta_title"),
     },
     {
       title: "Enabled",
-      dataIndex: "enabled",
-      key: "enabled",
+      dataIndex: "active_view",
+      key: "active_view",
       width: 100,
-      ...getColumnSearchProps("enabled"),
+      ...getColumnSearchProps("active_view"),
     },
     {
       title: "Action",
       key: "action",
       fixed: "right",
-      width: 70,
+      width: 50,
       render: (row: any) => (
         <TableAction>
           <FaEdit onClick={() => handleRowView(row)} /> <span>|</span>{" "}
           <Popconfirm
             title="Are you sure to delete this item?"
-            onConfirm={(e) => handleDelete(e, row.key)}
+            onConfirm={() => handleDelete(row)}
             okText="Yes"
             cancelText="No"
             placement="topRight"
@@ -201,6 +240,7 @@ const BrandPage: React.FC = () => {
 
   return (
     <PageCard>
+      <ToastContainer />
       <PageTitle>
         <SiBrandfolder />
         Brand
@@ -208,9 +248,10 @@ const BrandPage: React.FC = () => {
       <BrandTableWrapper>
         <SearchBox onClick={handleAddClick} />
         <Table
-          dataSource={BrandDataSource}
+          dataSource={tabledata}
           columns={BrandColumn}
           bordered
+          loading={loading}
           rowSelection={{
             selectedRowKeys,
             onChange: onSelectChange,

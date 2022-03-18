@@ -7,6 +7,7 @@ import "antd/dist/antd.css";
 import "assets/css/index.css";
 import "assets/css/App.css";
 import "assets/css/react-pro-sidebar.css";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 ReactDOM.render(
   // <React.StrictMode>

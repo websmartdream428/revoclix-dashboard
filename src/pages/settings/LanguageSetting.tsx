@@ -157,7 +157,7 @@ const LanguageSetting: React.FC = () => {
     if (res.type === "success") {
       setLanguage(language.filter((item: any) => item.id !== row.id));
     } else {
-      toast.error("you can upload only Image file.", {
+      toast.error(res.message, {
         theme: "colored",
         autoClose: 3000,
       });
