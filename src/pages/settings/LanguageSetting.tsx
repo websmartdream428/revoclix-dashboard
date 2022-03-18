@@ -168,10 +168,12 @@ const LanguageSetting: React.FC = () => {
 
   const handleModalOk = () => {
     setModal(false);
+    setModalData({});
   };
 
   const handleModalCancel = () => {
     setModal(false);
+    setModalData({});
   };
 
   const onSelectChange = (selectedRowKeys: any) => {

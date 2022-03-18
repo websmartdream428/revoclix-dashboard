@@ -21,6 +21,7 @@ const CategoriesModal: React.FC<ModalProps> = ({
   const handleChange = (value: any) => {
     console.log(`selected ${value}`);
   };
+
   return (
     <Modal
       title="Category"

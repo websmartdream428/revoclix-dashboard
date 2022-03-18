@@ -1,4 +1,4 @@
-export const addValidation = (data: any) => {
+export const addValidation = (editId: number, data: any) => {
   if (data.name === "") {
     return { valid: false, message: "Language name is required." };
   } else if (data.iso_code === "") {
@@ -19,7 +19,7 @@ export const addValidation = (data: any) => {
     return { valid: false, message: "Date Formart is required." };
   } else if (data.date_format_full === "") {
     return { valid: false, message: "Date Format(full) is required." };
-  } else if (data.file.length <= 0) {
+  } else if (data.file.length <= 0 && editId < 0) {
     return {
       valid: false,
       message: "Please select the flag image from your device.",

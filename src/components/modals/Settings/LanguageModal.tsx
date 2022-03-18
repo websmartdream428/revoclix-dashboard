@@ -1,13 +1,19 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Form, Input, Modal, Switch, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { ModalProps } from "types/ModalProps";
 import { addValidation } from "validation/langauge";
 import { toast, ToastContainer } from "react-toastify";
-import { addLanguage } from "actions/language.action";
+import { addLanguage, editLanguage } from "actions/language.action";
 import { LanguageContext } from "context";
+import { FormDesc } from "components";
 
-const LanguageModal: React.FC<ModalProps> = ({ visible, onCancel, onOk }) => {
+const LanguageModal: React.FC<ModalProps> = ({
+  visible,
+  onCancel,
+  onOk,
+  data,
+}) => {
   const [state, setState] = useState<any>({
     name: "",
     iso_code: "",
@@ -15,10 +21,30 @@ const LanguageModal: React.FC<ModalProps> = ({ visible, onCancel, onOk }) => {
     date_format_full: "",
     code: "",
     active: 0,
+    filePath: "",
     file: [],
+    flag_updated: false,
   });
   const { language, setLanguage } = useContext<any>(LanguageContext);
   const [loading, setLoading] = useState(false);
+  const [editId, setEditId] = useState(-1);
+
+  useEffect(() => {
+    if (data) {
+      setState({
+        name: data.name,
+        iso_code: data.iso_code,
+        date_format: data.date_format,
+        date_format_full: data.date_format_full,
+        code: data.code,
+        active: data.active,
+        filePath: data.flag,
+        file: [],
+        flag_updated: false,
+      });
+      setEditId(data.id);
+    }
+  }, [data]);
 
   const defaultState = () => {
     setState({
@@ -28,26 +54,46 @@ const LanguageModal: React.FC<ModalProps> = ({ visible, onCancel, onOk }) => {
       date_format_full: "",
       code: "",
       active: 0,
+      filePath: "",
       file: [],
+      flag_updated: false,
     });
+    setEditId(-1);
   };
 
   const handleSave = async () => {
-    const valid = await addValidation(state);
+    const valid = await addValidation(editId, state);
     if (!valid.valid) {
       toast.error(valid.message, { theme: "colored", autoClose: 3000 });
     } else {
       setLoading(true);
-      const res = await addLanguage(state);
-      if (res.type === "success") {
-        setLanguage([...language, res.data]);
-        await defaultState();
-        onOk();
-
-        setLoading(false);
+      if (editId < 0) {
+        const res = await addLanguage(state);
+        if (res.type === "success") {
+          setLanguage([...language, res.data]);
+          await defaultState();
+          onOk();
+        } else {
+          toast.error(res.message, { theme: "colored", autoClose: 3000 });
+        }
       } else {
-        toast.error(res.message, { theme: "colored", autoClose: 3000 });
+        const res = await editLanguage(editId, state);
+        if (res.type === "success") {
+          let temp = await language.map((item: any) => {
+            if (item.id === editId) {
+              return res.data;
+            }
+            return item;
+          });
+          setLanguage(temp);
+          await defaultState();
+          onOk();
+        } else {
+          toast.error(res.message, { theme: "colored", autoClose: 3000 });
+        }
       }
+
+      setLoading(false);
     }
   };
 
@@ -71,8 +117,10 @@ const LanguageModal: React.FC<ModalProps> = ({ visible, onCancel, onOk }) => {
   };
 
   const handleFileUpload = (e: any) => {
-    if (e.file.originFileObj.type.split("/")[0] !== "image") {
+    if (e?.file?.originFileObj?.type.split("/")[0] !== "image") {
       setState({ ...state, file: [] });
+    } else {
+      setState({ ...state, flag_updated: true });
     }
   };
 
@@ -99,9 +147,9 @@ const LanguageModal: React.FC<ModalProps> = ({ visible, onCancel, onOk }) => {
     >
       <ToastContainer />
       <Form
-        style={{ width: "80%", marginLeft: "auto" }}
-        labelCol={{ span: 4 }}
-        wrapperCol={{ span: 20 }}
+        style={{ width: "100%", maxWidth: "800px", margin: "auto" }}
+        labelCol={{ span: 6 }}
+        wrapperCol={{ span: 18 }}
         layout="horizontal"
       >
         <Form.Item label="*Name">
@@ -114,11 +162,11 @@ const LanguageModal: React.FC<ModalProps> = ({ visible, onCancel, onOk }) => {
             name="iso_code"
             value={state.iso_code}
           />
-          <span>{"Two-letter ISO code (e.g. FR, EN, DE)"}</span>
+          <FormDesc>{"Two-letter ISO code (e.g. FR, EN, DE)"}</FormDesc>
         </Form.Item>
         <Form.Item label="* Language code">
           <Input onChange={handleChange} name="code" value={state.code} />
-          <span>{"IETF language tag(e.g. en-US, pt-BR)"}</span>
+          <FormDesc>{"IETF language tag(e.g. en-US, pt-BR)"}</FormDesc>
         </Form.Item>
 
         <Form.Item label="* Date format">
@@ -128,7 +176,7 @@ const LanguageModal: React.FC<ModalProps> = ({ visible, onCancel, onOk }) => {
             name="date_format"
             value={state.date_format}
           />
-          <span>{"Short date format (e.g., Y-m-d)."}</span>
+          <FormDesc>{"Short date format (e.g., Y-m-d)."}</FormDesc>
         </Form.Item>
         <Form.Item label="* Date format (full)">
           <Input
@@ -137,9 +185,18 @@ const LanguageModal: React.FC<ModalProps> = ({ visible, onCancel, onOk }) => {
             name="date_format_full"
             value={state.date_format_full}
           />
-          <span>{"Full date format (e.g., Y-m-d H:i:s)."}</span>
+          <FormDesc>{"Full date format (e.g., Y-m-d H:i:s)."}</FormDesc>
         </Form.Item>
         <Form.Item label="* Flag">
+          {state.filePath && (
+            <img
+              src={state.filePath}
+              alt="flag"
+              width="80px"
+              style={{ objectFit: "cover" }}
+              height="40px"
+            />
+          )}
           <Upload
             name="flag"
             customRequest={customFileAction}
@@ -156,16 +213,18 @@ const LanguageModal: React.FC<ModalProps> = ({ visible, onCancel, onOk }) => {
               <Button icon={<UploadOutlined />}>Click to upload</Button>
             )}
           </Upload>
-          <span>{"Upload the country flag from your computer."}</span>
+
+          <FormDesc>{"Upload the country flag from your computer."}</FormDesc>
         </Form.Item>
         <Form.Item label="Status">
           <Switch
             onChange={(e) => {
               setState({ ...state, active: e ? 1 : 0 });
             }}
+            checked={state.active}
           />
           <br />
-          <span>{"Activate this language."}</span>
+          <FormDesc>{"Activate this language."}</FormDesc>
         </Form.Item>
       </Form>
     </Modal>
