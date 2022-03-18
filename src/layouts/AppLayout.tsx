@@ -24,9 +24,9 @@ const AppLayout: React.FC = ({ children }) => {
       const langData = await getAllLanguage();
       const brandData = await getAllBrand();
       const categoryData = await getAllCategory();
-      setLanguage(langData);
-      setBrand(brandData);
-      setCategory(categoryData);
+      setLanguage(langData.data);
+      setBrand(brandData.data);
+      setCategory(categoryData.data);
     };
     getFetchAllData();
     // eslint-disable-next-line react-hooks/exhaustive-deps

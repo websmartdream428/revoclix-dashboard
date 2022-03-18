@@ -24,9 +24,9 @@ import {
 
 function App() {
   const [sidebar, setSidebar] = useState({ key: "home", value: "dashboard" });
-  const [language, setLanguage] = useState(null);
-  const [brand, setBrand] = useState(null);
-  const [category, setCategory] = useState(null);
+  const [language, setLanguage] = useState([]);
+  const [brand, setBrand] = useState([]);
+  const [category, setCategory] = useState([]);
   const sidebarValue = useMemo(() => ({ sidebar, setSidebar }), [sidebar]);
   const languageValue = useMemo(() => ({ language, setLanguage }), [language]);
   const brandValue = useMemo(() => ({ brand, setBrand }), [brand]);

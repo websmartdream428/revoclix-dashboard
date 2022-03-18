@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Highlighter from "react-highlight-words";
 
 import { Button, Input, Popconfirm, Space, Table } from "antd";
@@ -10,8 +10,10 @@ import { SearchBox } from "components";
 
 import { TableAction } from "pages/categories/Categories.styles";
 import { TableWrapper } from "./Settings.styles";
-import { LanguageDataSource } from "mockups/TableDataSource";
 import { LanguageModal } from "components/modals";
+import { LanguageContext } from "context";
+import { FcCheckmark } from "react-icons/fc";
+import { IoMdClose } from "react-icons/io";
 
 const LanguageSetting: React.FC = () => {
   const [searchText, setSearchText] = useState("");
@@ -20,6 +22,34 @@ const LanguageSetting: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<any>([]);
   const [modal, setModal] = useState(false);
   const [modalData, setModalData] = useState<any>({});
+  const { language } = useContext<any>(LanguageContext);
+  const [tabledata, setTabledata] = useState<any>([]);
+
+  useEffect(() => {
+    const tempData = language.map((item: any, key: any) => ({
+      key: key + 1 + 121,
+      id: item.id,
+      flag: item.flag,
+      flag_view: (
+        <img
+          src={item.flag}
+          width="75px"
+          height="45px"
+          style={{ objectFit: "cover" }}
+          alt={item.iso_code}
+        />
+      ),
+      name: item.name,
+      iso_code: item.iso_code,
+      code: item.code,
+      date_format: item.date_format,
+      date_format_full: item.date_format_full,
+      active: item.active,
+      active_view:
+        item.active === 1 ? <FcCheckmark /> : <IoMdClose fill="#ff0000" />,
+    }));
+    setTabledata(tempData);
+  }, [language]);
 
   const handleSearch = (selectedKeys: any, confirm: any, dataIndex: any) => {
     confirm();
@@ -146,9 +176,9 @@ const LanguageSetting: React.FC = () => {
     },
     {
       title: "Flag",
-      dataIndex: "flag",
-      key: "flag",
-      width: 50,
+      dataIndex: "flag_view",
+      key: "flag_view",
+      width: 70,
     },
     {
       title: "Name",
@@ -160,44 +190,44 @@ const LanguageSetting: React.FC = () => {
     },
     {
       title: "ISO code",
-      dataIndex: "iso",
-      key: "iso",
+      dataIndex: "iso_code",
+      key: "iso_code",
       width: 90,
-      sorter: (a: any, b: any) => a.iso - b.iso,
-      ...getColumnSearchProps("iso"),
+      sorter: (a: any, b: any) => a.iso_code - b.iso_code,
+      ...getColumnSearchProps("iso_code"),
     },
     {
       title: "Language code",
-      dataIndex: "language",
-      key: "language",
+      dataIndex: "code",
+      key: "code",
       width: 90,
-      ...getColumnSearchProps("language"),
+      ...getColumnSearchProps("code"),
     },
     {
       title: "Date Format",
-      dataIndex: "dateFormat",
-      key: "dateFormat",
+      dataIndex: "date_format",
+      key: "date_format",
       width: 100,
-      ...getColumnSearchProps("dateFormat"),
+      ...getColumnSearchProps("date_format"),
     },
     {
       title: "Date Format(full)",
-      dataIndex: "dateFormatFull",
-      key: "dateFormatFull",
+      dataIndex: "date_format_full",
+      key: "date_format_full",
       width: 100,
-      ...getColumnSearchProps("dateFormatFull"),
+      ...getColumnSearchProps("date_format_full"),
     },
     {
       title: "Enabled",
-      dataIndex: "enabled",
-      key: "enabled",
+      dataIndex: "active_view",
+      key: "active_view",
       width: 60,
     },
     {
       title: "Action",
       key: "action",
       fixed: "right",
-      width: 70,
+      width: 50,
       render: (row: any) => (
         <TableAction>
           <FaEdit onClick={() => handleRowView(row)} /> <span>|</span>{" "}
@@ -218,7 +248,7 @@ const LanguageSetting: React.FC = () => {
     <TableWrapper>
       <SearchBox onClick={handleAddClick} />
       <Table
-        dataSource={LanguageDataSource}
+        dataSource={tabledata}
         columns={LanguageColumn}
         bordered
         rowSelection={{
