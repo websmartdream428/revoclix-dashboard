@@ -1,8 +1,9 @@
 import axios from "axios";
+import { API_URL } from "config";
 
 export const getAllBrand = async () => {
   try {
-    const res = await axios.get("/brand/get");
+    const res = await axios.get(`${API_URL} + /brand/get`);
     return res.data;
   } catch (err: any) {
     return err.response.data;
@@ -19,7 +20,7 @@ export const addBrand = async (data: any) => {
   formData.append("file", data.file[0]);
 
   try {
-    const res = await axios.post("/brand/add", formData, {
+    const res = await axios.post(`${API_URL} + /brand/add`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -43,7 +44,7 @@ export const editBrand = async (id: any, data: any) => {
     formData.append("flag_updated", data.flag_updated);
     formData.append("file", data.file[0]);
     try {
-      const res = await axios.post("/brand/edit", formData, {
+      const res = await axios.post(`${API_URL} + /brand/edit`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -68,7 +69,7 @@ export const editBrand = async (id: any, data: any) => {
 
 export const removeBrand = async (brand_id: number) => {
   try {
-    const res = await axios.post("/brand/remove", { brand_id });
+    const res = await axios.post(`${API_URL} + /brand/remove`, { brand_id });
     return res.data;
   } catch (err: any) {
     return err.response.data;

@@ -1,8 +1,9 @@
 import axios from "axios";
+import { API_URL } from "config";
 
 export const getAllLanguage = async () => {
   try {
-    const res = await axios.get("/lang/get");
+    const res = await axios.get(`${API_URL} + /lang/get`);
     return res.data;
   } catch (err: any) {
     return err.response.data;
@@ -20,7 +21,7 @@ export const addLanguage = async (data: any) => {
   formData.append("file", data.file[0]);
 
   try {
-    const res = await axios.post("/lang/add", formData, {
+    const res = await axios.post(`${API_URL} + /lang/add`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -45,7 +46,7 @@ export const editLanguage = async (id: any, data: any) => {
     formData.append("flag_updated", data.flag_updated);
     formData.append("file", data.file[0]);
     try {
-      const res = await axios.post("/lang/edit", formData, {
+      const res = await axios.post(`${API_URL} + /lang/edit`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -60,7 +61,7 @@ export const editLanguage = async (id: any, data: any) => {
       id,
     };
     try {
-      const res = await axios.post("/lang/edit", formData);
+      const res = await axios.post(`${API_URL} + /lang/edit`, formData);
       return res.data;
     } catch (err: any) {
       return err.response.data;
@@ -70,7 +71,7 @@ export const editLanguage = async (id: any, data: any) => {
 
 export const removeLanguage = async (language_id: number) => {
   try {
-    const res = await axios.post("/lang/remove", { language_id });
+    const res = await axios.post(`${API_URL} + /lang/remove`, { language_id });
     return res.data;
   } catch (err: any) {
     return err.response.data;
