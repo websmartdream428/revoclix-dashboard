@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { Button, Form, Input, Modal, Select, Switch, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import draftToHtml from "draftjs-to-html";
+import htmlToDraft from "html-to-draftjs";
+import { EditorState, ContentState, convertFromHTML } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 
 import { FormDesc } from "components";
@@ -48,6 +50,16 @@ const BrandModal: React.FC<ModalProps> = ({
         flag_updated: false,
       });
       setEditId(data.id);
+      setEditorState(() => {
+        const blocksFromHTML = convertFromHTML(data);
+        EditorState.createWithContent(
+          ContentState.createFromBlockArray(
+            blocksFromHTML.contentBlocks,
+            blocksFromHTML.entityMap
+          )
+        );
+      });
+      setEditorState(htmlToDraft(data.description));
     }
   }, [data]);
 
@@ -63,6 +75,7 @@ const BrandModal: React.FC<ModalProps> = ({
       flag_updated: false,
     });
     setEditId(-1);
+    setEditorState("");
   };
 
   const handleSave = async () => {
@@ -162,7 +175,7 @@ const BrandModal: React.FC<ModalProps> = ({
     >
       <ToastContainer />
       <Form
-        style={{ width: "80%", marginLeft: "auto" }}
+        style={{ width: "100%", maxWidth: "800px", margin: "auto" }}
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 20 }}
         layout="horizontal"
