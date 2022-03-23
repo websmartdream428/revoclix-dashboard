@@ -109,10 +109,9 @@ const CategoriesModal: React.FC<ModalProps> = ({
   }, [data]);
 
   useEffect(() => {
-    console.log(func(0, 0));
     setTreeData(func(0, 0));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [category]);
 
   const children = [];
   for (let i = 10; i < 36; i++) {
