@@ -14,7 +14,8 @@ import {
 import { UploadOutlined } from "@ant-design/icons";
 import draftToHtml from "draftjs-to-html";
 import { Editor } from "react-draft-wysiwyg";
-import { EditorState, ContentState, convertFromHTML } from "draft-js";
+import { EditorState, ContentState } from "draft-js";
+import htmlToDraft from "html-to-draftjs";
 import { PlusOutlined } from "@ant-design/icons";
 import { ModalProps } from "types/ModalProps";
 import { CategoryContext, LanguageContext } from "context";
@@ -94,13 +95,13 @@ const CategoriesModal: React.FC<ModalProps> = ({
       });
       setEditId(data.id);
       setEditorState(() => {
-        const blocksFromHTML = convertFromHTML(data);
-        EditorState.createWithContent(
-          ContentState.createFromBlockArray(
-            blocksFromHTML.contentBlocks,
-            blocksFromHTML.entityMap
-          )
+        const blocksFromHTML = htmlToDraft(data.description + "");
+        const contentState = ContentState.createFromBlockArray(
+          blocksFromHTML.contentBlocks,
+          blocksFromHTML.entityMap
         );
+
+        return EditorState.createWithContent(contentState);
       });
     }
 

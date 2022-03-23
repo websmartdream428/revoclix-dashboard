@@ -51,15 +51,14 @@ const BrandModal: React.FC<ModalProps> = ({
       });
       setEditId(data.id);
       setEditorState(() => {
-        const blocksFromHTML = convertFromHTML(data);
-        EditorState.createWithContent(
-          ContentState.createFromBlockArray(
-            blocksFromHTML.contentBlocks,
-            blocksFromHTML.entityMap
-          )
+        const blocksFromHTML = htmlToDraft(data.description + "");
+        const contentState = ContentState.createFromBlockArray(
+          blocksFromHTML.contentBlocks,
+          blocksFromHTML.entityMap
         );
+
+        return EditorState.createWithContent(contentState);
       });
-      setEditorState(htmlToDraft(data.description));
     }
   }, [data]);
 
