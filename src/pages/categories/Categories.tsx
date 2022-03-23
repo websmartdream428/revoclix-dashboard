@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { MdCategory, MdDelete } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import Highlighter from "react-highlight-words";
@@ -6,9 +6,13 @@ import { Button, Input, Popconfirm, Space, Table } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 
 import { PageCard, PageTitle, SearchBox } from "components";
-import { CategoriesDataSource } from "mockups/TableDataSource";
 import { CategoriesTableWrapper, TableAction } from "./Categories.styles";
 import { CategoriesModal } from "components/modals";
+import { FcCheckmark } from "react-icons/fc";
+import { IoMdClose } from "react-icons/io";
+import { removeCategory } from "actions/category.action";
+import { CategoryContext } from "context";
+import { toast } from "react-toastify";
 
 const CategoriesPage: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<any>([]);
@@ -16,7 +20,43 @@ const CategoriesPage: React.FC = () => {
   const [searchedColumn, setSearchedColumn] = useState("");
   const [searchInput, setSearchInput] = useState<any>(null);
   const [modal, setModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { category, setCategory } = useContext<any>(CategoryContext);
+  const [tabledata, setTabledata] = useState<any>([]);
   const [modalData, setModalData] = useState<any>({});
+
+  useEffect(() => {
+    setLoading(true);
+    const tempData = category.map((item: any, key: any) => ({
+      ...item,
+      key: key + 1,
+      icon_view: (
+        <img
+          src={item.icon}
+          width="75px"
+          height="75px"
+          style={{ objectFit: "cover" }}
+          alt={item.icon}
+        />
+      ),
+      description_view: (
+        <div
+          dangerouslySetInnerHTML={{
+            __html: item.description,
+          }}
+        />
+      ),
+      active: Number(item.active),
+      active_view:
+        Number(item.active) === 1 ? (
+          <FcCheckmark />
+        ) : (
+          <IoMdClose fill="#ff0000" />
+        ),
+    }));
+    setTabledata(tempData);
+    setLoading(false);
+  }, [category]);
 
   const onSelectChange = (selectedRowKeys: any) => {
     setSelectedRowKeys(selectedRowKeys);
@@ -112,17 +152,28 @@ const CategoriesPage: React.FC = () => {
       ),
   });
 
-  const handleDelete = (e: any, row: any) => {
-    console.log(e);
-    console.log(row);
+  const handleDelete = async (row: any) => {
+    setLoading(true);
+    const res = await removeCategory(row.id);
+    if (res.type === "success") {
+      setCategory(category.filter((item: any) => item.id !== row.id));
+    } else {
+      toast.error(res.message, {
+        theme: "colored",
+        autoClose: 3000,
+      });
+    }
+    setLoading(false);
   };
 
   const handleModalOk = () => {
     setModal(false);
+    setModalData({});
   };
 
   const handleModalCancel = () => {
     setModal(false);
+    setModalData({});
   };
 
   const handleRowView = (row: any) => {
@@ -142,6 +193,13 @@ const CategoriesPage: React.FC = () => {
       width: 50,
     },
     {
+      title: "Image",
+      dataIndex: "icon_view",
+      key: "icon_view",
+      width: 150,
+      ...getColumnSearchProps("icon_view"),
+    },
+    {
       title: "Name",
       dataIndex: "name",
       key: "name",
@@ -150,26 +208,19 @@ const CategoriesPage: React.FC = () => {
     },
     {
       title: "Description",
-      dataIndex: "description",
-      key: "description",
+      dataIndex: "description_view",
+      key: "description_view",
       width: 530,
-      sorter: (a: any, b: any) => a.description.localeCompare(b.description),
-      ...getColumnSearchProps("description"),
-    },
-    {
-      title: "Position",
-      dataIndex: "position",
-      key: "position",
-      width: 100,
-      sorter: (a: any, b: any) => a.position - b.position,
-      ...getColumnSearchProps("position"),
+      sorter: (a: any, b: any) =>
+        a.description_view.localeCompare(b.description_view),
+      ...getColumnSearchProps("description_view"),
     },
     {
       title: "Displayed",
-      dataIndex: "displayed",
-      key: "displayed",
+      dataIndex: "active_view",
+      key: "active_view",
       width: 100,
-      ...getColumnSearchProps("displayed"),
+      ...getColumnSearchProps("active_view"),
     },
     {
       title: "Action",
@@ -181,7 +232,7 @@ const CategoriesPage: React.FC = () => {
           <FaEdit onClick={() => handleRowView(row)} /> <span>|</span>{" "}
           <Popconfirm
             title="Are you sure to delete this item?"
-            onConfirm={(e) => handleDelete(e, row.key)}
+            onConfirm={() => handleDelete(row)}
             okText="Yes"
             cancelText="No"
             placement="topRight"
@@ -202,7 +253,7 @@ const CategoriesPage: React.FC = () => {
       <CategoriesTableWrapper>
         <SearchBox onClick={handleAddClick} />
         <Table
-          dataSource={CategoriesDataSource}
+          dataSource={tabledata}
           columns={CategoriesColumn}
           bordered
           rowSelection={{
@@ -210,6 +261,7 @@ const CategoriesPage: React.FC = () => {
             onChange: onSelectChange,
           }}
           scroll={{ x: 1000 }}
+          loading={loading}
         />
       </CategoriesTableWrapper>
       <CategoriesModal

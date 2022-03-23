@@ -28,7 +28,7 @@ const AppLayout: React.FC = ({ children }) => {
       setBrand(brandData.data);
       setCategory(categoryData.data);
     };
-    getFetchAllData();
+    if (localStorage.jwtToken) getFetchAllData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
