@@ -3,7 +3,7 @@ import { Button, Form, Input, Modal, Select, Switch, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import draftToHtml from "draftjs-to-html";
 import htmlToDraft from "html-to-draftjs";
-import { EditorState, ContentState, convertFromHTML } from "draft-js";
+import { EditorState, ContentState } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 
 import { FormDesc } from "components";
