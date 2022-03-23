@@ -78,7 +78,7 @@ const CategoriesModal: React.FC<ModalProps> = ({
         id_lang: data.id_lang,
         name: data.name,
         active: data.active,
-        parent: `${data.level_depth}-${data.id_parent}-${data.id}`,
+        parent: "",
         id_parent: data.id_parent,
         level_depth: data.level_depth,
         iconFamily: data.iconFamily,
@@ -109,6 +109,7 @@ const CategoriesModal: React.FC<ModalProps> = ({
   }, [data]);
 
   useEffect(() => {
+    console.log(func(0, 0));
     setTreeData(func(0, 0));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
