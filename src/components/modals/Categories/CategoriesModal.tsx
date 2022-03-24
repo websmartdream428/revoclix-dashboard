@@ -72,14 +72,17 @@ const CategoriesModal: React.FC<ModalProps> = ({
   const [treeData, setTreeData] = useState([]);
 
   useEffect(() => {
+    console.log(data);
     if (data.id) {
       const parent = category.filter(
         (item: any) => Number(item.id) === Number(data.id_parent)
       )[0];
-      setTagState({
-        ...tagState,
-        tags: data.meta_keywords === "" ? [] : data.meta_keywords.split(","),
-      });
+      if (data.meta_keywords) {
+        setTagState({
+          ...tagState,
+          tags: data.meta_keywords === "" ? [] : data.meta_keywords.split(","),
+        });
+      }
       setState({
         id_lang: data.id_lang,
         name: data.name,
@@ -95,7 +98,7 @@ const CategoriesModal: React.FC<ModalProps> = ({
         url_rewriting: data.url_rewriting,
         description: data.description,
         meta_title: data.meta_title,
-        meta_keywords: data.meta_keywords.split(","),
+        meta_keywords: data.meta_keywords ? data.meta_keywords.split(",") : [],
         meta_description: data.meta_description,
         filePath: data.icon,
         file: [],
@@ -205,7 +208,6 @@ const CategoriesModal: React.FC<ModalProps> = ({
             }
             return item;
           });
-          console.log("temp", temp);
           setCategory(temp);
           await defaultState();
           onOk();
