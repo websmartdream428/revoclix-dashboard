@@ -42,7 +42,6 @@ export const addCategory = async (data: any) => {
 
 export const editCategory = async (id: any, data: any) => {
   let formData;
-  console.log("action", data.meta_keywords.toString());
   if (data.flag_updated) {
     formData = new FormData();
     formData.append("id", id);
