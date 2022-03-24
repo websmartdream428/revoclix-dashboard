@@ -73,15 +73,20 @@ const CategoriesModal: React.FC<ModalProps> = ({
 
   useEffect(() => {
     if (data.id) {
-      setTagState({ ...tagState, tags: data.meta_keywords.split(",") });
+      const parent = category.filter(
+        (item: any) => Number(item.id) === Number(data.id_parent)
+      )[0];
+      setTagState({
+        ...tagState,
+        tags: data.meta_keywords === "" ? [] : data.meta_keywords.split(","),
+      });
       setState({
         id_lang: data.id_lang,
         name: data.name,
         active: data.active,
-        parent:
-          data.id_parent === 0
-            ? ""
-            : `${data.level_depth}-${data.id_parent}-${data.id}`,
+        parent: parent
+          ? `${parent.level_depth}-${parent.id_parent}-${parent.id}`
+          : "",
         id_parent: data.id_parent,
         level_depth: data.level_depth,
         iconFamily: data.iconFamily,
@@ -177,10 +182,11 @@ const CategoriesModal: React.FC<ModalProps> = ({
       toast.error(valid.message, { theme: "colored", autoClose: 3000 });
     } else {
       setLoading(true);
+
       if (editId < 0) {
         const newData = {
           ...state,
-          meta_keywords: state.meta_keywords.toString(),
+          meta_keywords: tagState.tags === [] ? "" : tagState.tags.toString(),
         };
         const res = await addCategory(newData);
         if (res.type === "success") {
@@ -199,6 +205,7 @@ const CategoriesModal: React.FC<ModalProps> = ({
             }
             return item;
           });
+          console.log("temp", temp);
           setCategory(temp);
           await defaultState();
           onOk();
@@ -370,7 +377,7 @@ const CategoriesModal: React.FC<ModalProps> = ({
                 ...state,
                 parent: value,
                 level_depth: Number(value.split("-")[0]),
-                id_parent: Number(value.split("-")[1]),
+                id_parent: Number(value.split("-")[2]),
               });
             }}
             treeData={treeData}
@@ -531,7 +538,7 @@ const CategoriesModal: React.FC<ModalProps> = ({
                 <Tag
                   className="edit-tag"
                   key={tag}
-                  closable={index !== 0}
+                  closable={true}
                   onClose={() => handleClose(tag)}
                 >
                   <span
