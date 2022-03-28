@@ -191,11 +191,13 @@ const BrandModal: React.FC<ModalProps> = ({
             placeholder="Select the language"
             onChange={(value) => setState({ ...state, id_lang: value })}
           >
-            {language?.map((item: any, key: any) => (
-              <Option value={item.id} key={key}>
-                {item.name}
-              </Option>
-            ))}
+            {language
+              ?.filter((item: any) => item.active === 1)
+              .map((item: any, key: any) => (
+                <Option value={item.id} key={key}>
+                  {item.name}
+                </Option>
+              ))}
           </Select>
           {state.id_lang !== "" && (
             <Editor

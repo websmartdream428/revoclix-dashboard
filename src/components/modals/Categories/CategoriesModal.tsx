@@ -72,7 +72,6 @@ const CategoriesModal: React.FC<ModalProps> = ({
   const [treeData, setTreeData] = useState([]);
 
   useEffect(() => {
-    console.log(data);
     if (data.id) {
       const parent = category.filter(
         (item: any) => Number(item.id) === Number(data.id_parent)
@@ -340,11 +339,13 @@ const CategoriesModal: React.FC<ModalProps> = ({
             placeholder="* Select the language"
             onChange={(value) => setState({ ...state, id_lang: value })}
           >
-            {language?.map((item: any, key: any) => (
-              <Option value={item.id} key={key}>
-                {item.name}
-              </Option>
-            ))}
+            {language
+              ?.filter((item: any) => item.active === 1)
+              .map((item: any, key: any) => (
+                <Option value={item.id} key={key}>
+                  {item.name}
+                </Option>
+              ))}
           </Select>
         </Form.Item>
         <Form.Item label="* Name">
