@@ -20,6 +20,7 @@ import {
   CategoryContext,
   LanguageContext,
   SidebarContext,
+  TranslateContext,
 } from "context";
 
 function App() {
@@ -27,62 +28,69 @@ function App() {
   const [language, setLanguage] = useState([]);
   const [brand, setBrand] = useState([]);
   const [category, setCategory] = useState([]);
+  const [translate, setTranslate] = useState([]);
   const sidebarValue = useMemo(() => ({ sidebar, setSidebar }), [sidebar]);
   const languageValue = useMemo(() => ({ language, setLanguage }), [language]);
   const brandValue = useMemo(() => ({ brand, setBrand }), [brand]);
   const categoryValue = useMemo(() => ({ category, setCategory }), [category]);
+  const translateValue = useMemo(
+    () => ({ translate, setTranslate }),
+    [translate]
+  );
 
   return (
-    <LanguageContext.Provider value={languageValue}>
-      <BrandContext.Provider value={brandValue}>
-        <CategoryContext.Provider value={categoryValue}>
-          <SidebarContext.Provider value={sidebarValue}>
-            <Router>
-              <AppLayout>
-                <Switch>
-                  <Route exact path="/" component={LoginPage} />
+    <TranslateContext.Provider value={translateValue}>
+      <LanguageContext.Provider value={languageValue}>
+        <BrandContext.Provider value={brandValue}>
+          <CategoryContext.Provider value={categoryValue}>
+            <SidebarContext.Provider value={sidebarValue}>
+              <Router>
+                <AppLayout>
                   <Switch>
-                    <PrivateRoute
-                      exact
-                      path="/categories"
-                      component={CategoriesPage}
-                    />
-                    <PrivateRoute exact path="/home" component={HomePage} />
-                    <PrivateRoute
-                      exact
-                      path="/product"
-                      component={ProductPage}
-                    />
-                    <PrivateRoute
-                      exact
-                      path="/customer"
-                      component={CustomerPage}
-                    />
-                    <PrivateRoute exact path="/brand" component={BrandPage} />
-                    <PrivateRoute
-                      exact
-                      path="/messages"
-                      component={MessagesPage}
-                    />
-                    <PrivateRoute
-                      exact
-                      path="/transaction"
-                      component={TransationPage}
-                    />
-                    <PrivateRoute
-                      exact
-                      path="/settings"
-                      component={SettingsPage}
-                    />
-                    <PrivateRoute exact path="*" component={NotFoundPage} />
+                    <Route exact path="/" component={LoginPage} />
+                    <Switch>
+                      <PrivateRoute
+                        exact
+                        path="/categories"
+                        component={CategoriesPage}
+                      />
+                      <PrivateRoute exact path="/home" component={HomePage} />
+                      <PrivateRoute
+                        exact
+                        path="/product"
+                        component={ProductPage}
+                      />
+                      <PrivateRoute
+                        exact
+                        path="/customer"
+                        component={CustomerPage}
+                      />
+                      <PrivateRoute exact path="/brand" component={BrandPage} />
+                      <PrivateRoute
+                        exact
+                        path="/messages"
+                        component={MessagesPage}
+                      />
+                      <PrivateRoute
+                        exact
+                        path="/transaction"
+                        component={TransationPage}
+                      />
+                      <PrivateRoute
+                        exact
+                        path="/settings"
+                        component={SettingsPage}
+                      />
+                      <PrivateRoute exact path="*" component={NotFoundPage} />
+                    </Switch>
                   </Switch>
-                </Switch>
-              </AppLayout>
-            </Router>
-          </SidebarContext.Provider>
-        </CategoryContext.Provider>
-      </BrandContext.Provider>
-    </LanguageContext.Provider>
+                </AppLayout>
+              </Router>
+            </SidebarContext.Provider>
+          </CategoryContext.Provider>
+        </BrandContext.Provider>
+      </LanguageContext.Provider>
+    </TranslateContext.Provider>
   );
 }
 

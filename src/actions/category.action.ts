@@ -11,7 +11,6 @@ export const getAllCategory = async () => {
 };
 
 export const addCategory = async (data: any) => {
-  console.log("action", data.meta_keywords);
   let formData = new FormData();
   formData.append("name", data.name);
   formData.append("id_lang", data.id_lang);
