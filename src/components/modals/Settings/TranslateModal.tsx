@@ -4,28 +4,35 @@ import { ModalProps } from "types/ModalProps";
 import { LanguageContext } from "context";
 import FormDesc from "components/FormDesc/FormDesc";
 import { toast, ToastContainer } from "react-toastify";
+import { addTranslate } from "actions/translate.action";
 
 const TranslateModal: React.FC<ModalProps> = ({ visible, onCancel, onOk }) => {
   const { language } = useContext<any>(LanguageContext);
   const [state, setState] = useState<any>({});
 
-  useEffect(() => {}, [language]);
+  useEffect(() => {
+    let temp: any = {};
+    language.forEach((item: any) => {
+      temp[item.id] = "";
+    });
+    console.log(temp);
+    setState({ ...temp, key: "" });
+  }, [language]);
 
   const handleSave = async () => {
-    console.log(state);
     if (state.key === "" || !state.key) {
       toast.error("Key field is required!", {
         theme: "colored",
         autoClose: 3000,
       });
     } else {
-      const newData = {
-        ...state,
-      };
+      const res = await addTranslate(state);
     }
   };
 
-  const handleCancel = async () => {};
+  const handleCancel = async () => {
+    onCancel();
+  };
 
   const handleChange = async (e: any) => {
     setState({ ...state, [e.target.name]: e.target.value });
