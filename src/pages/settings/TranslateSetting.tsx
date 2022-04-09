@@ -204,6 +204,8 @@ const TranslateSetting: React.FC = () => {
       dataIndex: "_key",
       key: "_key",
       width: 500,
+      sorter: (a: any, b: any) => a._key.localeCompare(b._key),
+      ...getColumnSearchProps("_key"),
     },
     // {
     //   title: "Language",
