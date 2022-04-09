@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Highlighter from "react-highlight-words";
 import { Button, Input, Popconfirm, Space, Table } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
@@ -7,8 +7,10 @@ import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { TableWrapper } from "./Settings.styles";
 import { SearchBox } from "components";
-import { TranslateDataSource } from "mockups/TableDataSource";
 import { TranslateModal } from "components/modals";
+import { LanguageContext, TranslateContext } from "context";
+import { removeTranslate } from "actions/translate.action";
+import { toast, ToastContainer } from "react-toastify";
 
 const TranslateSetting: React.FC = () => {
   const [searchText, setSearchText] = useState("");
@@ -17,6 +19,38 @@ const TranslateSetting: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<any>([]);
   const [modal, setModal] = useState(false);
   const [modalData, setModalData] = useState<any>({});
+  const { translate, setTranslate } = useContext<any>(TranslateContext);
+  const { language } = useContext<any>(LanguageContext);
+  const [tableData, setTableData] = useState<any>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    var lookup: any = {};
+    var items = translate;
+    var translateTemp = [];
+
+    for (var item, i = 0; (item = items[i++]); ) {
+      var name = item.id;
+
+      if (!(name in lookup)) {
+        lookup[name] = 1;
+        translateTemp.push(item);
+      }
+    }
+    const tableData = translateTemp.map((item: any, key: any) => ({
+      key: key + 1,
+      id: item.id,
+      _key: item._key,
+      id_lang: item.id_lang,
+      lang: language.filter((item1: any) => item1.id === item.id_lang)[0].name,
+      value: item.name,
+    }));
+    setTableData(tableData);
+
+    setLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [translate]);
 
   const handleSearch = (selectedKeys: any, confirm: any, dataIndex: any) => {
     confirm();
@@ -108,9 +142,19 @@ const TranslateSetting: React.FC = () => {
       ),
   });
 
-  const handleDelete = (e: any, row: any) => {
-    console.log(e);
-    console.log(row);
+  const handleDelete = async (e: any, row: any) => {
+    setLoading(true);
+    const res = await removeTranslate(row.id);
+    if (res.type === "success") {
+      setTranslate(translate.filter((item: any) => item.id !== row.id));
+    } else {
+      toast.error(res.message, {
+        theme: "colored",
+        autoClose: 3000,
+      });
+    }
+    setLoading(false);
+    // setLanguage()
   };
 
   const handleModalOk = () => {
@@ -127,7 +171,21 @@ const TranslateSetting: React.FC = () => {
 
   const handleRowView = (row: any) => {
     setModal(true);
-    setModalData(row);
+    let langData: any = [];
+    let data: any = { _key: row._key };
+
+    const filteredData: any = translate.filter(
+      (item: any) => item.id === row.id
+    );
+    filteredData.forEach((item: any) => {
+      let temp: any = {};
+      temp.lang = item.id_lang;
+      temp.text = item.name;
+      langData.push(temp);
+      data[item.id_lang] = item.name;
+    });
+    data.langData = langData;
+    setModalData({ ...data, id: row.id });
   };
 
   const handleAddClick = () => {
@@ -142,54 +200,27 @@ const TranslateSetting: React.FC = () => {
       width: 40,
     },
     {
-      title: "Flag",
-      dataIndex: "flag",
-      key: "flag",
-      width: 50,
+      title: "Key",
+      dataIndex: "_key",
+      key: "_key",
+      width: 500,
     },
-    {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-      width: 110,
-      sorter: (a: any, b: any) => a.name.localeCompare(b.name),
-      ...getColumnSearchProps("name"),
-    },
-    {
-      title: "ISO code",
-      dataIndex: "iso",
-      key: "iso",
-      width: 90,
-      sorter: (a: any, b: any) => a.iso - b.iso,
-      ...getColumnSearchProps("iso"),
-    },
-    {
-      title: "Language code",
-      dataIndex: "language",
-      key: "language",
-      width: 90,
-      ...getColumnSearchProps("language"),
-    },
-    {
-      title: "Date Format",
-      dataIndex: "dateFormat",
-      key: "dateFormat",
-      width: 100,
-      ...getColumnSearchProps("dateFormat"),
-    },
-    {
-      title: "Date Format(full)",
-      dataIndex: "dateFormatFull",
-      key: "dateFormatFull",
-      width: 100,
-      ...getColumnSearchProps("dateFormatFull"),
-    },
-    {
-      title: "Enabled",
-      dataIndex: "enabled",
-      key: "enabled",
-      width: 60,
-    },
+    // {
+    //   title: "Language",
+    //   dataIndex: "lang",
+    //   key: "lang",
+    //   width: 110,
+    //   sorter: (a: any, b: any) => a.lang.localeCompare(b.lang),
+    //   ...getColumnSearchProps("lang"),
+    // },
+    // {
+    //   title: "Value",
+    //   dataIndex: "value",
+    //   key: "value",
+    //   width: 90,
+    //   sorter: (a: any, b: any) => a.iso - b.iso,
+    //   ...getColumnSearchProps("iso"),
+    // },
     {
       title: "Action",
       key: "action",
@@ -200,7 +231,7 @@ const TranslateSetting: React.FC = () => {
           <FaEdit onClick={() => handleRowView(row)} /> <span>|</span>{" "}
           <Popconfirm
             title="Are you sure to delete this item?"
-            onConfirm={(e) => handleDelete(e, row.key)}
+            onConfirm={(e) => handleDelete(e, row)}
             okText="Yes"
             cancelText="No"
             placement="topRight"
@@ -214,16 +245,18 @@ const TranslateSetting: React.FC = () => {
 
   return (
     <TableWrapper>
+      <ToastContainer />
       <SearchBox onClick={handleAddClick} />
       <Table
-        dataSource={TranslateDataSource}
+        loading={loading}
+        dataSource={tableData}
         columns={TranslateColumn}
         bordered
         rowSelection={{
           selectedRowKeys,
           onChange: onSelectChange,
         }}
-        scroll={{ x: 1300 }}
+        // scroll={{ x: 1300 }}
       />
       <TranslateModal
         visible={modal}
