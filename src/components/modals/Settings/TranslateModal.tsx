@@ -23,7 +23,7 @@ const TranslateModal: React.FC<ModalProps> = ({
     let langData: any = [];
     let temp: any = {};
     language
-      ?.filter((item: any) => item.t_active === 1)
+      ?.filter((item: any) => Number(item.t_active) === 1)
       .forEach((item: any) => {
         temp[item.id] = "";
         langData.push({
@@ -37,7 +37,19 @@ const TranslateModal: React.FC<ModalProps> = ({
 
   useEffect(() => {
     if (data.id) {
-      setState(data);
+      let langData: any = [];
+      language
+        ?.filter((item: any) => Number(item.t_active) === 1)
+        .forEach((item: any) => {
+          const temp = data.langData.filter(
+            (item1: any) => item1.lang === item.id
+          );
+          langData.push({
+            lang: item.id,
+            text: temp[0]?.text ? temp[0].text : "",
+          });
+        });
+      setState({ ...data, langData });
       setEditId(data.id);
     }
   }, [data]);
@@ -124,7 +136,7 @@ const TranslateModal: React.FC<ModalProps> = ({
         </Form.Item>
 
         {language
-          ?.filter((item: any) => item.t_active === 1)
+          ?.filter((item: any) => Number(item.t_active) === 1)
           .map((item: any, key: any) => (
             <Form.Item key={key} label={item.iso_code}>
               <Input
