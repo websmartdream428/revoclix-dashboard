@@ -25,6 +25,7 @@ const BrandModal: React.FC<ModalProps> = ({
     meta_title: "",
     active: 0,
     description: "",
+    descriptions: [],
     id_lang: "",
     filePath: "",
     file: [],
@@ -45,6 +46,7 @@ const BrandModal: React.FC<ModalProps> = ({
         active: data.active,
         id_lang: data.id_lang,
         description: data.description,
+        descriptions: data.descriptions,
         filePath: data.logo,
         file: [],
         flag_updated: false,
@@ -68,6 +70,7 @@ const BrandModal: React.FC<ModalProps> = ({
       meta_title: "",
       active: 0,
       description: "",
+      descriptions: [],
       id_lang: "",
       filePath: "",
       file: [],
@@ -189,7 +192,23 @@ const BrandModal: React.FC<ModalProps> = ({
             style={{ width: 150, marginBottom: 5 }}
             value={state.id_lang}
             placeholder="Select the language"
-            onChange={(value) => setState({ ...state, id_lang: value })}
+            onChange={(value) => {
+              const temp = data.descriptions?.filter(
+                (item: any) => item.id_lang === value
+              )[0];
+              setEditorState(() => {
+                const blocksFromHTML = htmlToDraft(
+                  temp?.description ? temp.description + "" : ""
+                );
+                const contentState = ContentState.createFromBlockArray(
+                  blocksFromHTML.contentBlocks,
+                  blocksFromHTML.entityMap
+                );
+
+                return EditorState.createWithContent(contentState);
+              });
+              setState({ ...state, id_lang: value });
+            }}
           >
             {language
               ?.filter((item: any) => item.active === 1)

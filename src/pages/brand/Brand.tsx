@@ -30,7 +30,19 @@ const BrandPage: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    const tempData = brand.map((item: any, key: any) => ({
+    var lookup: any = {};
+    var items = brand;
+    var brandTemp = [];
+
+    for (var item, i = 0; (item = items[i++]); ) {
+      var name = item.id;
+
+      if (!(name in lookup)) {
+        lookup[name] = 1;
+        brandTemp.push(item);
+      }
+    }
+    const tempData = brandTemp.map((item: any, key: any) => ({
       ...item,
       key: key + 1,
       logo_view: (
@@ -42,6 +54,7 @@ const BrandPage: React.FC = () => {
           alt={item.logo}
         />
       ),
+      descriptions: brand.filter((item1: any) => item1.id_brands === item.id),
       active: Number(item.active),
       active_view:
         Number(item.active) === 1 ? (
@@ -177,6 +190,7 @@ const BrandPage: React.FC = () => {
   };
 
   const handleAddClick = () => {
+    setModalData({});
     setModal(true);
   };
 

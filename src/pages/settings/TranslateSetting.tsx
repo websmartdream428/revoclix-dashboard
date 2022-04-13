@@ -205,6 +205,7 @@ const TranslateSetting: React.FC = () => {
       key: "_key",
       width: 500,
       sorter: (a: any, b: any) => a._key.localeCompare(b._key),
+
       ...getColumnSearchProps("_key"),
     },
     // {

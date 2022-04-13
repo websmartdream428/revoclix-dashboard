@@ -21,6 +21,7 @@ const LanguageModal: React.FC<ModalProps> = ({
     date_format_full: "",
     code: "",
     active: 0,
+    t_active: 0,
     filePath: "",
     file: [],
     flag_updated: false,
@@ -38,6 +39,7 @@ const LanguageModal: React.FC<ModalProps> = ({
         date_format_full: data.date_format_full,
         code: data.code,
         active: data.active,
+        t_active: data.t_active,
         filePath: data.flag,
         file: [],
         flag_updated: false,
@@ -54,6 +56,7 @@ const LanguageModal: React.FC<ModalProps> = ({
       date_format_full: "",
       code: "",
       active: 0,
+      t_active: 0,
       filePath: "",
       file: [],
       flag_updated: false,
@@ -225,6 +228,16 @@ const LanguageModal: React.FC<ModalProps> = ({
           />
           <br />
           <FormDesc>{"Activate this language."}</FormDesc>
+        </Form.Item>
+        <Form.Item label="Translate">
+          <Switch
+            onChange={(e) => {
+              setState({ ...state, t_active: e ? 1 : 0 });
+            }}
+            checked={state.t_active}
+          />
+          <br />
+          <FormDesc>{"Activate this language for Translate."}</FormDesc>
         </Form.Item>
       </Form>
     </Modal>

@@ -23,6 +23,8 @@ import FormDesc from "components/FormDesc/FormDesc";
 import { toast, ToastContainer } from "react-toastify";
 import { addValidation } from "validation/category";
 import { addCategory, editCategory } from "actions/category.action";
+import MCI_List from "mockups/MaterialCommunityIcons.json";
+// import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const CategoriesModal: React.FC<ModalProps> = ({
   visible,
@@ -72,6 +74,7 @@ const CategoriesModal: React.FC<ModalProps> = ({
   const [treeData, setTreeData] = useState([]);
 
   useEffect(() => {
+    console.log(Object.keys(MCI_List));
     if (data.id) {
       const parent = category.filter(
         (item: any) => Number(item.id) === Number(data.id_parent)
@@ -239,38 +242,46 @@ const CategoriesModal: React.FC<ModalProps> = ({
     setState({ ...state, [e.target.name]: e.target.value });
   };
 
-  const customFileAction = ({ file, onSuccess }: any) => {
-    setTimeout(() => {
-      setState({ ...state, file: [file] });
-      onSuccess("ok");
-    }, 0);
-  };
+  // const customFileAction = ({ file, onSuccess }: any) => {
+  //   setTimeout(() => {
+  //     setState({ ...state, file: [file] });
+  //     onSuccess("ok");
+  //   }, 0);
+  // };
 
-  const beforeUpload = (e: any) => {
-    if (e.type.split("/")[0] !== "image") {
-      toast.error("you can upload only Image file.", {
-        theme: "colored",
-        autoClose: 3000,
-      });
-      setState({ ...state, file: [] });
-    }
-  };
+  // const beforeUpload = (e: any) => {
+  //   if (e.type.split("/")[0] !== "image") {
+  //     toast.error("you can upload only Image file.", {
+  //       theme: "colored",
+  //       autoClose: 3000,
+  //     });
+  //     setState({ ...state, file: [] });
+  //   }
+  // };
 
-  const handleFileUpload = (e: any) => {
-    if (e?.file?.originFileObj?.type.split("/")[0] !== "image") {
-      setState({ ...state, file: [] });
-    } else {
-      setState({ ...state, flag_updated: true });
-    }
-  };
+  // const handleFileUpload = (e: any) => {
+  //   if (e?.file?.originFileObj?.type.split("/")[0] !== "image") {
+  //     setState({ ...state, file: [] });
+  //   } else {
+  //     setState({ ...state, flag_updated: true });
+  //   }
+  // };
 
-  const handleFileRemove = () => {
-    setState({ ...state, file: [] });
-  };
+  // const handleFileRemove = () => {
+  //   setState({ ...state, file: [] });
+  // };
 
   /////////////////////////////////////////////////////////////////////
   const handleEditInputChange = (e: any) => {
     setTagState({ ...tagState, editInputValue: e.target.value });
+  };
+
+  const onChange = (value: any) => {
+    console.log(`selected ${value}`);
+  };
+
+  const onSearch = (val: any) => {
+    console.log("search:", val);
   };
 
   const handleEditInputConfirm = () => {
@@ -384,20 +395,7 @@ const CategoriesModal: React.FC<ModalProps> = ({
               });
             }}
             treeData={treeData}
-          >
-            {/* <TreeNode value="0-1" title="Parent 1">
-              <TreeNode value="1-2" title="Parent 1-0">
-                <TreeNode value="2-3" title="Leaf1" />
-                <TreeNode value="2-4" title="Leaf2" />
-              </TreeNode>
-            </TreeNode>
-            <TreeNode value="3-1" title="Parent 1">
-              <TreeNode value="4-2" title="Parent 1-0">
-                <TreeNode value="5-3" title="Leaf1" />
-                <TreeNode value="6-4" title="Leaf2" />
-              </TreeNode>
-            </TreeNode> */}
-          </TreeSelect>
+          />
         </Form.Item>
         <Form.Item label="Description">
           {state.id_lang !== "" && (
@@ -442,7 +440,29 @@ const CategoriesModal: React.FC<ModalProps> = ({
               : "Select the Language"}
           </FormDesc>
         </Form.Item>
-        <Form.Item label="Category cover image">
+        <Form.Item label="Select Category Icon">
+          <Select
+            showSearch
+            placeholder="Select a person"
+            optionFilterProp="children"
+            onChange={onChange}
+            onSearch={onSearch}
+            filterOption={(input, option: any) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+          >
+            {Object.keys(MCI_List).map((item: string, key: number) => (
+              <Option key={key} value={item}>
+                {/* <Icon name={item} size={30} color={"#000"} /> */}
+                {item}
+              </Option>
+            ))}
+          </Select>
+          <a href="https://icons.expo.fyi/" target="_blank">
+            Icon List
+          </a>
+        </Form.Item>
+        {/* <Form.Item label="Category cover image">
           {state.filePath && (
             <img
               src={state.filePath}
@@ -469,7 +489,7 @@ const CategoriesModal: React.FC<ModalProps> = ({
             )}
           </Upload>
           <FormDesc>{"Upload a brand logo from your computer."}</FormDesc>
-        </Form.Item>
+        </Form.Item> */}
         <Form.Item label="Meta title">
           {state.id_lang !== "" && (
             <Input
