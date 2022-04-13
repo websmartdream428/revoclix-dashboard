@@ -98,13 +98,22 @@ const BrandModal: React.FC<ModalProps> = ({
       } else {
         const res = await editBrand(editId, state);
         if (res.type === "success") {
-          let temp = await brand.map((item: any) => {
-            if (item.id === editId) {
-              return res.data;
-            }
-            return item;
-          });
-          setBrand(temp);
+          if (
+            brand.filter(
+              (item: any) =>
+                item.id === editId && item.id_lang === state.id_lang
+            ).length > 0
+          ) {
+            let temp = await brand.map((item: any) => {
+              if (item.id === editId && item.id_lang === state.id_lang) {
+                return res.data;
+              }
+              return item;
+            });
+            setBrand(temp);
+          } else {
+            setBrand([...brand, res.data]);
+          }
           await defaultState();
           onOk();
         } else {

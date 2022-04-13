@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import {
-  Button,
+  // Button,
   Form,
   Input,
   Modal,
@@ -9,9 +9,9 @@ import {
   Tag,
   Tooltip,
   TreeSelect,
-  Upload,
+  // Upload,
 } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+// import { UploadOutlined } from "@ant-design/icons";
 import draftToHtml from "draftjs-to-html";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, ContentState } from "draft-js";
@@ -24,6 +24,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { addValidation } from "validation/category";
 import { addCategory, editCategory } from "actions/category.action";
 import MCI_List from "mockups/MaterialCommunityIcons.json";
+import { Icon } from "@iconify/react";
 // import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const CategoriesModal: React.FC<ModalProps> = ({
@@ -48,9 +49,11 @@ const CategoriesModal: React.FC<ModalProps> = ({
     meta_title: "",
     meta_keywords: [],
     meta_description: "",
-    filePath: "",
-    file: [],
-    flag_updated: false,
+    langData: [],
+    icon: "",
+    // filePath: "",
+    // file: [],
+    // flag_updated: false,
   });
   const [tagState, setTagState] = useState<any>({
     tags: [],
@@ -74,7 +77,6 @@ const CategoriesModal: React.FC<ModalProps> = ({
   const [treeData, setTreeData] = useState([]);
 
   useEffect(() => {
-    console.log(Object.keys(MCI_List));
     if (data.id) {
       const parent = category.filter(
         (item: any) => Number(item.id) === Number(data.id_parent)
@@ -97,14 +99,16 @@ const CategoriesModal: React.FC<ModalProps> = ({
         iconFamily: data.iconFamily,
         backgroundColor: data.backgroundColor,
         color: data.color,
-        url_rewriting: data.url_rewriting,
         description: data.description,
-        meta_title: data.meta_title,
         meta_keywords: data.meta_keywords ? data.meta_keywords.split(",") : [],
+        url_rewriting: data.url_rewriting,
+        meta_title: data.meta_title,
         meta_description: data.meta_description,
-        filePath: data.icon,
-        file: [],
-        flag_updated: false,
+        langData: data.langData,
+        icon: data.icon,
+        // filePath: data.icon,
+        // file: [],
+        // flag_updated: false,
       });
       setEditId(data.id);
       setEditorState(() => {
@@ -134,7 +138,19 @@ const CategoriesModal: React.FC<ModalProps> = ({
   }
 
   const func = (pid: number, depth: number) => {
-    let temp: any = category.filter(
+    var lookup: any = {};
+    var items = category;
+    var categoryTemp = [];
+
+    for (var item, i = 0; (item = items[i++]); ) {
+      var name = item.id;
+
+      if (!(name in lookup)) {
+        lookup[name] = 1;
+        categoryTemp.push(item);
+      }
+    }
+    let temp: any = categoryTemp.filter(
       (item: any) => item.id_parent === pid && item.level_depth === depth
     );
     let temp1 = temp.map((item: any) => ({
@@ -167,9 +183,11 @@ const CategoriesModal: React.FC<ModalProps> = ({
       meta_title: "",
       meta_keywords: [],
       meta_description: "",
-      filePath: "",
-      file: [],
-      flag_updated: false,
+      langData: [],
+      icon: "",
+      // filePath: "",
+      // file: [],
+      // flag_updated: false,
     });
     setTagState({
       tags: [],
@@ -182,7 +200,7 @@ const CategoriesModal: React.FC<ModalProps> = ({
   };
 
   const handleSave = async () => {
-    const valid = await addValidation(editId, state);
+    const valid = await addValidation(state);
     if (!valid.valid) {
       toast.error(valid.message, { theme: "colored", autoClose: 3000 });
     } else {
@@ -204,13 +222,22 @@ const CategoriesModal: React.FC<ModalProps> = ({
       } else {
         const res = await editCategory(editId, state);
         if (res.type === "success") {
-          let temp = await category.map((item: any) => {
-            if (item.id === editId) {
-              return res.data;
-            }
-            return item;
-          });
-          setCategory(temp);
+          if (
+            category.filter(
+              (item: any) =>
+                item.id === editId && item.id_lang === state.id_lang
+            ).length > 0
+          ) {
+            let temp = await category.map((item: any) => {
+              if (item.id === editId && item.id_lang === state.id_lang) {
+                return res.data;
+              }
+              return item;
+            });
+            setCategory(temp);
+          } else {
+            setCategory([...category, res.data]);
+          }
           await defaultState();
           onOk();
         } else {
@@ -277,7 +304,7 @@ const CategoriesModal: React.FC<ModalProps> = ({
   };
 
   const onChange = (value: any) => {
-    console.log(`selected ${value}`);
+    setState({ ...state, icon: value });
   };
 
   const onSearch = (val: any) => {
@@ -348,7 +375,32 @@ const CategoriesModal: React.FC<ModalProps> = ({
             style={{ width: 150, marginBottom: 5 }}
             value={state.id_lang}
             placeholder="* Select the language"
-            onChange={(value) => setState({ ...state, id_lang: value })}
+            onChange={(value) => {
+              const temp = data.langData?.filter(
+                (item: any) => item.id_lang === value
+              )[0];
+              setEditorState(() => {
+                const blocksFromHTML = htmlToDraft(
+                  temp?.description ? temp.description + "" : ""
+                );
+                const contentState = ContentState.createFromBlockArray(
+                  blocksFromHTML.contentBlocks,
+                  blocksFromHTML.entityMap
+                );
+
+                return EditorState.createWithContent(contentState);
+              });
+              setState({
+                ...state,
+                id_lang: value,
+                name: temp?.name ? temp.name : "",
+                url_rewriting: temp?.url_rewriting ? temp?.url_rewriting : "",
+                meta_title: temp?.meta_title ? temp?.meta_title : "",
+                meta_description: temp?.meta_description
+                  ? temp?.meta_description
+                  : "",
+              });
+            }}
           >
             {language
               ?.filter((item: any) => item.active === 1)
@@ -443,22 +495,26 @@ const CategoriesModal: React.FC<ModalProps> = ({
         <Form.Item label="Select Category Icon">
           <Select
             showSearch
-            placeholder="Select a person"
+            placeholder="Select an Icon name"
             optionFilterProp="children"
+            value={state.icon}
             onChange={onChange}
             onSearch={onSearch}
-            filterOption={(input, option: any) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
+            filterOption={(input, option: any) => {
+              return (
+                option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              );
+            }}
           >
             {Object.keys(MCI_List).map((item: string, key: number) => (
               <Option key={key} value={item}>
-                {/* <Icon name={item} size={30} color={"#000"} /> */}
-                {item}
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Icon icon={`mdi:${item}`} /> {` ${item}`}
+                </div>
               </Option>
             ))}
           </Select>
-          <a href="https://icons.expo.fyi/" target="_blank">
+          <a href="https://icons.expo.fyi/" target="_blank" rel="noreferrer">
             Icon List
           </a>
         </Form.Item>
