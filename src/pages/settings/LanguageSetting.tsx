@@ -50,6 +50,7 @@ const LanguageSetting: React.FC = () => {
       date_format: item.date_format,
       date_format_full: item.date_format_full,
       active: Number(item.active),
+      t_active: Number(item.t_active),
       active_view:
         Number(item.active) === 1 ? (
           <FcCheckmark />

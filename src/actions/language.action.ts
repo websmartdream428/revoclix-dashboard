@@ -18,6 +18,7 @@ export const addLanguage = async (data: any) => {
   formData.append("date_format_full", data.date_format_full);
   formData.append("code", data.code);
   formData.append("active", data.active);
+  formData.append("t_active", data.t_active);
   formData.append("file", data.file[0]);
 
   try {

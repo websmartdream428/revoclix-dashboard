@@ -13,6 +13,7 @@ import { IoMdClose } from "react-icons/io";
 import { removeCategory } from "actions/category.action";
 import { CategoryContext } from "context";
 import { toast } from "react-toastify";
+import { Icon } from "@iconify/react";
 
 const CategoriesPage: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<any>([]);
@@ -24,28 +25,42 @@ const CategoriesPage: React.FC = () => {
   const { category, setCategory } = useContext<any>(CategoryContext);
   const [tabledata, setTabledata] = useState<any>([]);
   const [modalData, setModalData] = useState<any>({});
-
   useEffect(() => {
     setLoading(true);
-    const tempData = category.map((item: any, key: any) => ({
+    var lookup: any = {};
+    var items = category;
+    var categoryTemp = [];
+
+    for (var item, i = 0; (item = items[i++]); ) {
+      var name = item.id;
+
+      if (!(name in lookup)) {
+        lookup[name] = 1;
+        categoryTemp.push(item);
+      }
+    }
+    const tempData = categoryTemp.map((item: any, key: any) => ({
       ...item,
       key: key + 1,
-      icon_view: (
-        <img
-          src={item.icon}
-          width="75px"
-          height="75px"
-          style={{ objectFit: "cover" }}
-          alt={item.icon}
-        />
-      ),
-      description_view: (
-        <div
-          dangerouslySetInnerHTML={{
-            __html: item.description,
-          }}
-        />
-      ),
+      icon: item.icon,
+      langData: category.filter((item1: any) => item1.id_category === item.id),
+      icon_view: <Icon icon={`mdi:${item.icon}`} fontSize="30px" />,
+      // (
+      //   <img
+      //     src={item.icon}
+      //     width="75px"
+      //     height="75px"
+      //     style={{ objectFit: "cover" }}
+      //     alt={item.icon}
+      //   />
+      // ),
+      // description_view: (
+      //   <div
+      //     dangerouslySetInnerHTML={{
+      //       __html: item.description,
+      //     }}
+      //   />
+      // ),
       active: Number(item.active),
       active_view:
         Number(item.active) === 1 ? (
@@ -182,6 +197,7 @@ const CategoriesPage: React.FC = () => {
   };
 
   const handleAddClick = () => {
+    setModalData({});
     setModal(true);
   };
 
@@ -193,28 +209,28 @@ const CategoriesPage: React.FC = () => {
       width: 50,
     },
     {
-      title: "Image",
+      title: "Icon",
       dataIndex: "icon_view",
       key: "icon_view",
-      width: 150,
+      width: 100,
       ...getColumnSearchProps("icon_view"),
     },
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      width: 150,
+      width: 350,
       ...getColumnSearchProps("name"),
     },
-    {
-      title: "Description",
-      dataIndex: "description_view",
-      key: "description_view",
-      width: 530,
-      sorter: (a: any, b: any) =>
-        a.description_view.localeCompare(b.description_view),
-      ...getColumnSearchProps("description_view"),
-    },
+    // {
+    //   title: "Description",
+    //   dataIndex: "description_view",
+    //   key: "description_view",
+    //   width: 530,
+    //   sorter: (a: any, b: any) =>
+    //     a.description_view.localeCompare(b.description_view),
+    //   ...getColumnSearchProps("description_view"),
+    // },
     {
       title: "Displayed",
       dataIndex: "active_view",
