@@ -51,9 +51,6 @@ const CategoriesModal: React.FC<ModalProps> = ({
     meta_description: "",
     langData: [],
     icon: "",
-    // filePath: "",
-    // file: [],
-    // flag_updated: false,
   });
   const [tagState, setTagState] = useState<any>({
     tags: [],
@@ -106,9 +103,6 @@ const CategoriesModal: React.FC<ModalProps> = ({
         meta_description: data.meta_description,
         langData: data.langData,
         icon: data.icon,
-        // filePath: data.icon,
-        // file: [],
-        // flag_updated: false,
       });
       setEditId(data.id);
       setEditorState(() => {
