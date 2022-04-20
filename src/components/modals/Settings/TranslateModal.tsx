@@ -36,7 +36,6 @@ const TranslateModal: React.FC<ModalProps> = ({
   }, [visible]);
 
   useEffect(() => {
-    console.log(data);
     if (data.id) {
       let langData: any = [];
       language
