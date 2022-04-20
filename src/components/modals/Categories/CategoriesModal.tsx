@@ -133,7 +133,7 @@ const CategoriesModal: React.FC<ModalProps> = ({
 
   const func = (pid: number, depth: number) => {
     var lookup: any = {};
-    var items = category;
+    var items = category.filter((item: any) => item.active === 1);
     var categoryTemp = [];
 
     for (var item, i = 0; (item = items[i++]); ) {
@@ -145,13 +145,15 @@ const CategoriesModal: React.FC<ModalProps> = ({
       }
     }
     let temp: any = categoryTemp.filter(
-      (item: any) => item.id_parent === pid && item.level_depth === depth
+      (item: any) =>
+        Number(item.id_parent) === Number(pid) &&
+        Number(item.level_depth) === Number(depth)
     );
     let temp1 = temp.map((item: any) => ({
       value: `${item.level_depth}-${item.id_parent}-${item.id}`,
       title: item.name,
       key: `${item.level_depth}-${item.id_parent}-${item.id}`,
-      children: func(item.id, item.level_depth + 1),
+      children: func(item.id, Number(item.level_depth) + 1),
     }));
     if (temp1.length > 0) {
       return temp1;
@@ -436,7 +438,7 @@ const CategoriesModal: React.FC<ModalProps> = ({
               setState({
                 ...state,
                 parent: value,
-                level_depth: Number(value.split("-")[0]),
+                level_depth: Number(value.split("-")[0]) + 1,
                 id_parent: Number(value.split("-")[2]),
               });
             }}
