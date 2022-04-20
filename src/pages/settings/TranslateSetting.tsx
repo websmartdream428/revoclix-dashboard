@@ -25,7 +25,6 @@ const TranslateSetting: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log(translate);
     setLoading(true);
     var lookup: any = {};
     var items = translate;
