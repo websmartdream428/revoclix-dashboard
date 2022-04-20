@@ -9,13 +9,15 @@ import { AppContent, AppWrapper } from "./App.styles";
 import { getAllLanguage } from "actions/language.action";
 import { getAllBrand } from "actions/brand.action";
 import { getAllCategory } from "actions/category.action";
+import { getAllTranslate } from "actions/translate.action";
+import { getAllCondition } from "actions/condition.action";
 import {
   BrandContext,
   CategoryContext,
+  ConditionContext,
   LanguageContext,
   TranslateContext,
 } from "context";
-import { getAllTranslate } from "actions/translate.action";
 
 const AppLayout: React.FC = ({ children }) => {
   const location = useLocation();
@@ -25,6 +27,7 @@ const AppLayout: React.FC = ({ children }) => {
   const { setBrand } = useContext<any>(BrandContext);
   const { setCategory } = useContext<any>(CategoryContext);
   const { setTranslate } = useContext<any>(TranslateContext);
+  const { setCondition } = useContext<any>(ConditionContext);
 
   useEffect(() => {
     const getFetchAllData = async () => {
@@ -32,11 +35,13 @@ const AppLayout: React.FC = ({ children }) => {
       const brandData = await getAllBrand();
       const categoryData = await getAllCategory();
       const translateData = await getAllTranslate();
+      const conditionData = await getAllCondition();
 
       setLanguage(langData.data);
       setBrand(brandData.data);
       setCategory(categoryData.data);
       setTranslate(translateData.data);
+      setCondition(conditionData.data);
     };
     if (localStorage.jwtToken) getFetchAllData();
     // eslint-disable-next-line react-hooks/exhaustive-deps

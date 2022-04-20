@@ -546,7 +546,13 @@ const CategoriesModal: React.FC<ModalProps> = ({
           {state.id_lang !== "" && (
             <Input
               placeholder="To have a different title from the category name, enter it here."
-              onChange={handleChange}
+              onChange={(e) => {
+                setCharacterCounter({
+                  ...characterCounter,
+                  m_title: e.target.value.length,
+                });
+                handleChange(e);
+              }}
               name="meta_title"
               value={state.meta_title}
             />
@@ -559,7 +565,7 @@ const CategoriesModal: React.FC<ModalProps> = ({
             }
           >
             {state.id_lang !== ""
-              ? `${characterCounter} of 70 characters allowed`
+              ? `${characterCounter.m_title} of 70 characters allowed`
               : "Select the Language"}
           </FormDesc>
         </Form.Item>
@@ -567,7 +573,13 @@ const CategoriesModal: React.FC<ModalProps> = ({
           {state.id_lang !== "" && (
             <Input.TextArea
               placeholder="To have a different description than your category summary in search results page, write it here."
-              onChange={handleChange}
+              onChange={(e) => {
+                setCharacterCounter({
+                  ...characterCounter,
+                  m_desc: e.target.value.length,
+                });
+                handleChange(e);
+              }}
               name="meta_description"
               value={state.meta_description}
             />
@@ -580,7 +592,7 @@ const CategoriesModal: React.FC<ModalProps> = ({
             }
           >
             {state.id_lang !== ""
-              ? `${characterCounter} of 160 characters allowed`
+              ? `${characterCounter.m_desc} of 160 characters allowed`
               : "Select the Language"}
           </FormDesc>
         </Form.Item>

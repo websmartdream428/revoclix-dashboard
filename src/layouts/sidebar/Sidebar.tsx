@@ -10,6 +10,7 @@ import { SiBrandfolder } from "react-icons/si";
 import { SidebarOverLay, SidebarWrapper } from "./Sidebar.styles";
 import SidebarContext from "context/SidebarContext";
 import { FlagProps } from "types/FlagProps";
+import { ImSpellCheck } from "react-icons/im";
 
 const Sidebar: React.FC<FlagProps> = ({ flag, onClick }) => {
   const history = useHistory();
@@ -34,13 +35,6 @@ const Sidebar: React.FC<FlagProps> = ({ flag, onClick }) => {
               Dashboard
             </MenuItem>
             <MenuItem
-              active={sidebar.key === "categories"}
-              onClick={() => handleMenuClick("categories", "Categories")}
-              icon={<MdCategory />}
-            >
-              Categories
-            </MenuItem>
-            <MenuItem
               active={sidebar.key === "product"}
               onClick={() => handleMenuClick("product", "Product")}
               icon={<MdProductionQuantityLimits />}
@@ -48,11 +42,11 @@ const Sidebar: React.FC<FlagProps> = ({ flag, onClick }) => {
               Product
             </MenuItem>
             <MenuItem
-              active={sidebar.key === "customer"}
-              onClick={() => handleMenuClick("customer", "Customer")}
-              icon={<RiUser2Fill />}
+              active={sidebar.key === "categories"}
+              onClick={() => handleMenuClick("categories", "Categories")}
+              icon={<MdCategory />}
             >
-              Customer
+              Categories
             </MenuItem>
             <MenuItem
               active={sidebar.key === "brand"}
@@ -60,6 +54,20 @@ const Sidebar: React.FC<FlagProps> = ({ flag, onClick }) => {
               icon={<SiBrandfolder />}
             >
               Brand
+            </MenuItem>
+            <MenuItem
+              active={sidebar.key === "condition"}
+              onClick={() => handleMenuClick("condition", "Condition")}
+              icon={<ImSpellCheck />}
+            >
+              Condition
+            </MenuItem>
+            <MenuItem
+              active={sidebar.key === "customer"}
+              onClick={() => handleMenuClick("customer", "Customer")}
+              icon={<RiUser2Fill />}
+            >
+              Customer
             </MenuItem>
             <MenuItem
               active={sidebar.key === "messages"}
