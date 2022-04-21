@@ -124,13 +124,6 @@ const CategoriesModal: React.FC<ModalProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category]);
 
-  const children = [];
-  for (let i = 10; i < 36; i++) {
-    children.push(
-      <Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>
-    );
-  }
-
   const func = (pid: number, depth: number) => {
     var lookup: any = {};
     var items = category.filter((item: any) => item.active === 1);

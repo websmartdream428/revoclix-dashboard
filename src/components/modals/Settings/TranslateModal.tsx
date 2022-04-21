@@ -52,6 +52,7 @@ const TranslateModal: React.FC<ModalProps> = ({
       setState({ ...data, langData });
       setEditId(data.id);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   const defaultState = () => {

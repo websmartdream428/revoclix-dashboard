@@ -16,6 +16,7 @@ const ConditionModal: React.FC<ModalProps> = ({
   const { Option } = Select;
   const [editId, setEditId] = useState(-1);
   const { condition, setCondition } = useContext<any>(ConditionContext);
+  const { language } = useContext<any>(LanguageContext);
   const [state, setState] = useState({
     id_lang: "",
     name: "",
@@ -24,7 +25,6 @@ const ConditionModal: React.FC<ModalProps> = ({
   });
   const [loading, setLoading] = useState(false);
   const [characterCounter, setCharacterCounter] = useState(0);
-  const { language } = useContext<any>(LanguageContext);
 
   useEffect(() => {
     if (data.id) {
